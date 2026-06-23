@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "@astrojs/markdoc": "^1.0.3",
+    "@astrojs/netlify": "^7.0.13",
     "@astrojs/node": "^10.0.5",
     "@astrojs/react": "^5.0.3",
     "@keystatic/astro": "^5.1.0",
@@ -30,7 +31,7 @@
   },
   "overrides": {
     "vite": "^7",
-    "react": "$react",
-    "react-dom": "$react-dom"
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
   }
 }
