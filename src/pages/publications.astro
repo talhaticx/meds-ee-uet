@@ -1,0 +1,39 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Card from '@/components/Card.astro';
+import Button from '@/components/Button.astro';
+import { getPublications } from '@/lib/content';
+import { formatDate } from '@/lib/format';
+
+const publications = await getPublications();
+---
+
+<BaseLayout title="Publications | MEDS (Maktab-e-Digital Systems)" description="Published research papers with IEEE or PDF links.">
+  <section class="container-shell py-12 sm:py-16 lg:py-20">
+    <div class="max-w-3xl space-y-5">
+      <span class="eyebrow">Publications</span>
+      <h1 class="text-5xl font-bold leading-tight sm:text-6xl">Research papers and published outcomes from the center.</h1>
+      <p class="text-lg leading-8 text-ink/80">
+        Browse journal articles, conference papers, and downloadable PDFs tied to the lab’s silicon and accelerator work.
+      </p>
+    </div>
+  </section>
+
+  <section class="container-shell py-4 lg:py-8">
+    <div class="space-y-4">
+      {publications.map((publication) => (
+        <Card>
+          <div class="flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
+            <div class="space-y-2">
+              <p class="text-xs uppercase tracking-[0.18em] text-ink/55">{formatDate(publication.publishedDate, { month: 'short', year: 'numeric' })}</p>
+              <h2 class="text-2xl font-bold text-brand">{publication.title}</h2>
+              <p class="text-sm leading-7 text-ink/75">{publication.authors}</p>
+              <p class="text-sm font-medium text-ink/60">{publication.venue}</p>
+            </div>
+            <Button href={publication.link} variant="secondary">View paper</Button>
+          </div>
+        </Card>
+      ))}
+    </div>
+  </section>
+</BaseLayout>

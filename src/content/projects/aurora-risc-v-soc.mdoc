@@ -1,0 +1,32 @@
+---
+title: "Aurora RISC-V SoC"
+status: Active
+abstract: "A compact 64-bit RISC-V system with custom memory protection, DMA support, and a power-aware interconnect."
+techStack:
+  - Verilog\n  - SystemVerilog\n  - RISC-V\n  - FPGA
+heroImage: aurora-risc-v-soc.jpg
+heroImageAlt: "FPGA board and wiring on a bench"
+featuredOrder: 1
+---
+Aurora is the center’s flagship SoC effort and the main proving ground for tape-out methodology.
+
+The current branch integrates a secure boot path, a dual-port scratchpad, and a bus fabric built for timing closure on the target process node.
+
+
+```verilog
+module pipeline_top (
+  input  logic        clk,
+  input  logic        rst_n,
+  output logic [31:0] trace
+);
+  always_ff @(posedge clk or negedge rst_n) begin
+    if (!rst_n) begin
+      trace <= '0;
+    end else begin
+      trace <= trace + 32'd1;
+    end
+  end
+endmodule
+```
+
+

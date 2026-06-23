@@ -1,0 +1,7 @@
+title: "RISC-V Bring-Up Workshop"
+date: '2026-05-01T09:00:00.000Z'
+location: "Engineering Auditorium"
+description: "A hands-on session covering ISA basics, simulation, synthesis, and first boot firmware."
+imageGallery:
+  - image: risc-v-bring-up-workshop-0.jpg
+    alt: "Workshop attendees listening to a presentation"

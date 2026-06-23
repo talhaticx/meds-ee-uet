@@ -1,0 +1,19 @@
+---
+interface Props {
+  href?: string;
+  class?: string;
+}
+
+const { href, class: className = '' } = Astro.props as Props;
+const classes = `surface overflow-hidden p-6 transition duration-200 hover:-translate-y-1 hover:shadow-[0_22px_50px_rgba(89,46,92,0.16)] ${className}`.trim();
+---
+
+{href ? (
+  <a href={href} class={classes}>
+    <slot />
+  </a>
+) : (
+  <article class={classes}>
+    <slot />
+  </article>
+)}

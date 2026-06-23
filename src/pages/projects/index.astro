@@ -1,0 +1,39 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Card from '@/components/Card.astro';
+import { getProjects } from '@/lib/content';
+
+const projects = await getProjects();
+---
+
+<BaseLayout title="Projects | MEDS (Maktab-e-Digital Systems)" description="Hardware designs, processor tape-outs, and FPGA accelerators.">
+  <section class="container-shell py-12 sm:py-16 lg:py-20">
+    <div class="max-w-3xl space-y-5">
+      <span class="eyebrow">Projects</span>
+      <h1 class="text-5xl font-bold leading-tight sm:text-6xl">Research hardware programs from first RTL to tape-out readiness.</h1>
+      <p class="text-lg leading-8 text-ink/80">
+        Explore active and completed designs spanning processor cores, accelerator fabrics, and instrumentation tooling used across the lab.
+      </p>
+    </div>
+  </section>
+
+  <section class="container-shell py-4 lg:py-8">
+    <div class="grid gap-6 md:grid-cols-2">
+      {projects.map((project) => (
+        <Card href={`/projects/${project.slug}`}>
+          <div class="space-y-4">
+            <div class="aspect-[16/9] overflow-hidden rounded-2xl bg-peach">
+              {project.heroImageUrl ? <img src={project.heroImageUrl} alt={project.heroImageAlt ?? project.title} class="h-full w-full object-cover" loading="lazy" /> : null}
+            </div>
+            <div class="flex items-center justify-between gap-3">
+              <span class={`rounded-full px-3 py-1 text-xs font-semibold ${project.status === 'Active' ? 'bg-peach text-brand' : 'bg-mauve text-brand'}`}>{project.status}</span>
+              <span class="text-xs uppercase tracking-[0.18em] text-ink/55">{project.techStack.join(' · ')}</span>
+            </div>
+            <h2 class="text-2xl font-bold text-brand">{project.title}</h2>
+            <p class="text-sm leading-7 text-ink/75">{project.abstract}</p>
+          </div>
+        </Card>
+      ))}
+    </div>
+  </section>
+</BaseLayout>

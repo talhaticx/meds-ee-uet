@@ -1,0 +1,32 @@
+---
+title: "Tape-out Readiness for the Spring RISC-V Core"
+publishedAt: '2026-05-14T10:00:00.000Z'
+author: amina-shah
+mainImage: tapeout-readiness-spring-riscv-core.jpg
+mainImageAlt: "Chip design workspace with monitors and circuit boards"
+excerpt: "We closed timing on the control plane, tightened the power grid, and completed pre-layout verification across the final branch of the core."
+---
+We closed timing on the control plane, tightened the power grid, and completed pre-layout verification across the final branch of the core.
+
+The latest milestone was a full regression pass across synthesis, STA, and gate-level simulation. We also tuned the memory subsystem to avoid back-pressure when the accelerator queue is saturated.
+
+![Laboratory hardware close-up](/images/posts/lab-hardware.jpg)
+
+
+```verilog
+module pipeline_top (
+  input  logic        clk,
+  input  logic        rst_n,
+  output logic [31:0] trace
+);
+  always_ff @(posedge clk or negedge rst_n) begin
+    if (!rst_n) begin
+      trace <= '0;
+    end else begin
+      trace <= trace + 32'd1;
+    end
+  end
+endmodule
+```
+
+

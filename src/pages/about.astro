@@ -1,0 +1,87 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Card from '@/components/Card.astro';
+import Button from '@/components/Button.astro';
+import { getMembers } from '@/lib/content';
+
+const members = await getMembers();
+---
+
+<BaseLayout title="About | MEDS (Maktab-e-Digital Systems)" description="Mission, lab capabilities, and faculty/team members.">
+  <section class="container-shell py-12 sm:py-16 lg:py-20">
+    <div class="max-w-3xl space-y-5">
+      <span class="eyebrow">About the center</span>
+      <h1 class="text-5xl font-bold leading-tight sm:text-6xl">From classroom FPGA work to full-chip research and tape-out readiness.</h1>
+      <p class="text-lg leading-8 text-ink/80">
+        The center develops hardware research programs that help students and faculty build practical chip systems, verify them rigorously, and turn strong ideas into manufacturable silicon.
+      </p>
+    </div>
+  </section>
+
+  <section class="container-shell grid gap-6 lg:grid-cols-3">
+    <Card class="lg:col-span-2">
+      <h2 class="text-2xl font-bold text-brand">Mission</h2>
+      <p class="mt-4 text-sm leading-7 text-ink/75">
+        We combine research, teaching, and prototyping so the full hardware lifecycle is visible in one place: architecture exploration, RTL, verification, physical design, tape-out, and post-silicon bring-up.
+      </p>
+      <p class="mt-4 text-sm leading-7 text-ink/75">
+        The lab is designed around reproducibility. Every project keeps its RTL, scripts, measurement notes, and publication assets aligned so the center can move quickly without losing technical traceability.
+      </p>
+    </Card>
+
+    <Card>
+      <h2 class="text-2xl font-bold text-brand">Capabilities</h2>
+      <ul class="mt-4 space-y-3 text-sm text-ink/75">
+        <li class="rounded-2xl bg-peach px-4 py-3">RISC-V and custom CPU design</li>
+        <li class="rounded-2xl bg-peach px-4 py-3">FPGA prototyping and emulation</li>
+        <li class="rounded-2xl bg-peach px-4 py-3">Verification, synthesis, and STA</li>
+        <li class="rounded-2xl bg-peach px-4 py-3">Open-source EDA and automation flows</li>
+      </ul>
+    </Card>
+  </section>
+
+  <section class="container-shell py-12">
+    <div class="flex items-end justify-between gap-4">
+      <div>
+        <p class="eyebrow">Faculty and team</p>
+        <h2 class="mt-4 text-3xl font-bold sm:text-4xl">People behind the research</h2>
+      </div>
+    </div>
+
+    <div class="mt-8 grid gap-6 md:grid-cols-2 xl:grid-cols-4">
+      {members.map((member) => (
+        <Card>
+          <div class="space-y-4">
+            <div class="aspect-[4/5] overflow-hidden rounded-2xl bg-mauve">
+              {member.imageUrl ? <img src={member.imageUrl} alt={member.imageAlt ?? member.name} class="h-full w-full object-cover" loading="lazy" /> : null}
+            </div>
+            <div>
+              <p class="text-xs uppercase tracking-[0.18em] text-ink/55">{member.role}</p>
+              <h3 class="mt-2 text-xl font-bold text-brand">{member.name}</h3>
+            </div>
+            <p class="text-sm leading-7 text-ink/70">{member.bio}</p>
+            {member.linkedin ? (
+              <a href={member.linkedin} target="_blank" rel="noreferrer" class="text-sm font-semibold text-brand hover:text-brand/80">
+                LinkedIn profile
+              </a>
+            ) : null}
+          </div>
+        </Card>
+      ))}
+    </div>
+  </section>
+
+  <section class="container-shell py-12">
+    <div class="surface rounded-3xl p-8 sm:p-12 text-center shadow-sm">
+      <h2 class="text-3xl font-bold text-brand">Contact Us</h2>
+      <p class="mt-4 text-lg text-ink/80 max-w-2xl mx-auto">
+        Interested in our research, hardware projects, or potential collaborations? Get in touch with us.
+      </p>
+      <div class="mt-8 flex flex-wrap justify-center gap-4">
+        <Button href="mailto:contact@meds.edu.pk">Email Us</Button>
+        <Button href="https://github.com" variant="secondary" target="_blank" rel="noreferrer">GitHub</Button>
+        <Button href="https://linkedin.com" variant="secondary" target="_blank" rel="noreferrer">LinkedIn</Button>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

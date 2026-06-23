@@ -1,0 +1,150 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Button from '../components/Button.astro';
+import Card from '../components/Card.astro';
+import { getHomeSummaries } from '../lib/content';
+import { formatDate } from '../lib/format';
+
+const { latestPosts, featuredProjects, latestActivities } = await getHomeSummaries();
+---
+
+<BaseLayout title="MEDS (Maktab-e-Digital Systems)" description="University center for chip design, hardware tape-outs, and FPGA accelerators.">
+  <section class="container-shell py-12 sm:py-16 lg:py-24">
+    <div class="grid gap-12 lg:grid-cols-[1.05fr_0.95fr] lg:items-center">
+      <div class="space-y-8">
+        <span class="eyebrow">Advanced Hardware Research Lab</span>
+        <div class="space-y-6">
+          <h1 class="max-w-4xl font-extrabold leading-tight tracking-tight">
+            <span class="block text-4xl text-ink sm:text-5xl lg:text-6xl mb-1 sm:mb-2">Engineering open silicon at</span>
+            <span class="block text-[1.5rem] sm:text-5xl lg:text-6xl text-brand whitespace-nowrap">Maktab-e-Digital Systems</span>
+          </h1>
+          <p class="max-w-2xl text-xl font-medium leading-relaxed text-ink/90">
+            MEDS is a research center at UET, Lahore, pushing the boundaries of digital logic design, hardware verification, and custom architecture.
+          </p>
+          <p class="max-w-2xl text-lg leading-relaxed text-ink/80">
+            We specialize in end-to-end hardware development, equipping engineering teams to build custom FPGA accelerators and guide robust RISC-V processor cores from raw RTL to successful physical tape-out.
+          </p>
+        </div>
+        <div class="flex flex-wrap gap-3">
+          <Button href="/projects">Explore projects</Button>
+          <Button href="/blog" variant="secondary">Latest updates</Button>
+        </div>
+        <div class="grid gap-4 sm:grid-cols-3">
+          <div class="surface p-5">
+            <p class="text-3xl font-bold text-brand">12+</p>
+            <p class="mt-2 text-sm text-ink/70">Active hardware efforts</p>
+          </div>
+          <div class="surface p-5">
+            <p class="text-3xl font-bold text-brand">4</p>
+            <p class="mt-2 text-sm text-ink/70">Research focus areas</p>
+          </div>
+          <div class="surface p-5">
+            <p class="text-3xl font-bold text-brand">24/7</p>
+            <p class="mt-2 text-sm text-ink/70">Prototyping & validation</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="surface relative overflow-hidden p-6 lg:p-8">
+        <div class="absolute inset-0 bg-gradient-to-br from-peach/80 via-white to-mauve/60"></div>
+        <div class="relative space-y-4">
+          <p class="eyebrow">Featured tape-out program</p>
+          <div class="rounded-3xl bg-white/80 p-6 backdrop-blur shadow-sm">
+            <p class="text-sm font-semibold uppercase tracking-[0.18em] text-brand">Aurora RISC-V SoC</p>
+            <p class="mt-3 text-3xl font-bold text-ink">A low-power research core built for secure, reproducible silicon work.</p>
+            <p class="mt-4 text-sm leading-7 text-ink/75">
+              From RTL to sign-off, the center tracks timing, power, and verification in a repeatable pipeline that students can study, optimize, and extend.
+            </p>
+          </div>
+          <div class="grid gap-4 sm:grid-cols-2">
+            <div class="rounded-2xl border border-brand/10 bg-white/80 p-4 shadow-sm">
+              <p class="text-sm font-semibold text-brand">Design focus</p>
+              <p class="mt-2 text-sm text-ink/70">Processor tape-outs, accelerator fabrics, and lab-ready debug tooling.</p>
+            </div>
+            <div class="rounded-2xl border border-brand/10 bg-white/80 p-4 shadow-sm">
+              <p class="text-sm font-semibold text-brand">Editorial workflow</p>
+              <p class="mt-2 text-sm text-ink/70">Research updates, publications, and event logs managed in Sanity.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="container-shell py-8 lg:py-12">
+    <div class="flex items-end justify-between gap-4">
+      <div>
+        <p class="eyebrow">Latest news</p>
+        <h2 class="mt-4 text-3xl font-bold sm:text-4xl">Recent updates from the center</h2>
+      </div>
+      <a href="/blog" class="hidden text-sm font-semibold text-brand hover:text-brand/80 sm:inline-flex">See all posts</a>
+    </div>
+
+    <div class="mt-8 grid gap-6 lg:grid-cols-2">
+      {latestPosts.map((post) => (
+        <Card href={`/blog/${post.slug}`}>
+          <div class="space-y-4">
+            <div class="aspect-[16/10] overflow-hidden rounded-2xl bg-peach">
+              {post.mainImageUrl ? <img src={post.mainImageUrl} alt={post.mainImageAlt ?? post.title} class="h-full w-full object-cover" loading="lazy" /> : null}
+            </div>
+            <div class="flex items-center justify-between gap-3 text-xs uppercase tracking-[0.18em] text-ink/55">
+              <span>{formatDate(post.publishedAt)}</span>
+              <span>{post.author?.name ?? 'Center Editorial'}</span>
+            </div>
+            <h3 class="text-2xl font-bold text-brand">{post.title}</h3>
+            <p class="text-sm leading-7 text-ink/75">{post.bodyText?.slice(0, 160) ?? 'Latest technical notes and research progress from the center.'}</p>
+          </div>
+        </Card>
+      ))}
+    </div>
+  </section>
+
+  <section class="container-shell py-8 lg:py-12">
+    <div class="flex items-end justify-between gap-4">
+      <div>
+        <p class="eyebrow">Featured projects</p>
+        <h2 class="mt-4 text-3xl font-bold sm:text-4xl">Hardware work in progress</h2>
+      </div>
+      <a href="/projects" class="hidden text-sm font-semibold text-brand hover:text-brand/80 sm:inline-flex">See all projects</a>
+    </div>
+
+    <div class="mt-8 grid gap-6 md:grid-cols-2">
+      {featuredProjects.map((project) => (
+        <Card href={`/projects/${project.slug}`}>
+          <div class="space-y-4">
+            <div class="flex items-center justify-between gap-4">
+              <span class={`rounded-full px-3 py-1 text-xs font-semibold ${project.status === 'Active' ? 'bg-peach text-brand' : 'bg-mauve text-brand'}`}>
+                {project.status}
+              </span>
+              <span class="text-xs uppercase tracking-[0.18em] text-ink/50">{project.techStack.join(' · ')}</span>
+            </div>
+            <h3 class="text-2xl font-bold text-brand">{project.title}</h3>
+            <p class="text-sm leading-7 text-ink/75">{project.abstract}</p>
+          </div>
+        </Card>
+      ))}
+    </div>
+  </section>
+
+  <section class="container-shell py-8 lg:py-12">
+    <div>
+      <p class="eyebrow">Recent activity</p>
+      <h2 class="mt-4 text-3xl font-bold sm:text-4xl">Workshops, hack nights, and lab sessions</h2>
+    </div>
+
+    <div class="mt-8 grid gap-6 md:grid-cols-3">
+      {latestActivities.map((activity) => (
+        <Card>
+          <div class="space-y-4">
+            <div class="aspect-[4/3] overflow-hidden rounded-2xl bg-peach">
+              {activity.imageGallery[0] ? <img src={activity.imageGallery[0].url} alt={activity.imageGallery[0].alt} class="h-full w-full object-cover" loading="lazy" /> : null}
+            </div>
+            <p class="text-xs uppercase tracking-[0.18em] text-ink/55">{formatDate(activity.date)}</p>
+            <h3 class="text-xl font-bold text-brand">{activity.title}</h3>
+            <p class="text-sm text-ink/70">{activity.location}</p>
+          </div>
+        </Card>
+      ))}
+    </div>
+  </section>
+</BaseLayout>

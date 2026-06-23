@@ -1,0 +1,45 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Card from '@/components/Card.astro';
+import { getActivities } from '@/lib/content';
+import { formatDate } from '@/lib/format';
+
+const activities = await getActivities();
+---
+
+<BaseLayout title="Activities | MEDS (Maktab-e-Digital Systems)" description="Event logs, hackathons, and workshops hosted by the center.">
+  <section class="container-shell py-12 sm:py-16 lg:py-20">
+    <div class="max-w-3xl space-y-5">
+      <span class="eyebrow">Activities</span>
+      <h1 class="text-5xl font-bold leading-tight sm:text-6xl">Event logs, hackathons, and workshops from the lab.</h1>
+      <p class="text-lg leading-8 text-ink/80">
+        Track the center’s community work, including hands-on hardware sessions, student workshops, and collaborative research events.
+      </p>
+    </div>
+  </section>
+
+  <section class="container-shell py-4 lg:py-8">
+    <div class="grid gap-6 lg:grid-cols-2">
+      {activities.map((activity) => (
+        <Card>
+          <div class="space-y-4">
+            <div class="aspect-[16/9] overflow-hidden rounded-2xl bg-peach">
+              {activity.imageGallery[0] ? <img src={activity.imageGallery[0].url} alt={activity.imageGallery[0].alt} class="h-full w-full object-cover" loading="lazy" /> : null}
+            </div>
+            <p class="text-xs uppercase tracking-[0.18em] text-ink/55">{formatDate(activity.date)}</p>
+            <h2 class="text-2xl font-bold text-brand">{activity.title}</h2>
+            <p class="text-sm font-medium text-ink/60">{activity.location}</p>
+            <p class="text-sm leading-7 text-ink/75">{activity.description}</p>
+            {activity.imageGallery.length > 1 ? (
+              <div class="grid grid-cols-2 gap-3">
+                {activity.imageGallery.slice(1).map((image) => (
+                  <img src={image.url} alt={image.alt} class="h-28 w-full rounded-xl object-cover" loading="lazy" />
+                ))}
+              </div>
+            ) : null}
+          </div>
+        </Card>
+      ))}
+    </div>
+  </section>
+</BaseLayout>

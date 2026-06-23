@@ -1,0 +1,51 @@
+/* 1. Import Google Fonts normally */
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;700&display=swap');
+
+/* 2. Replace the 3 @tailwind lines with this one import */
+@import "tailwindcss";
+
+/* 3. Your custom theme configuration (Tailwind v4 CSS-first style) */
+@theme {
+  --color-brand: #592E5C;
+  --color-ink: #1F2937;
+  --color-mauve: #EADCEA;
+  --color-peach: #FFE6E6;
+  --font-display: "Space Grotesk", sans-serif;
+  --shadow-soft: 0 18px 45px rgba(89, 46, 92, 0.12);
+}
+
+/* 4. Your layer styles remain mostly the same */
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-white text-ink antialiased;
+    background-image:
+      radial-gradient(circle at top left, rgba(89, 46, 92, 0.06), transparent 28%),
+      radial-gradient(circle at bottom right, rgba(234, 220, 234, 0.75), transparent 32%);
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-display text-brand;
+  }
+
+  a {
+    @apply transition-colors duration-200;
+  }
+}
+
+@layer components {
+  .container-shell {
+    @apply mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8;
+  }
+
+  .surface {
+    @apply rounded-3xl border border-mauve/80 bg-white shadow-soft;
+  }
+
+  .eyebrow {
+    @apply inline-flex items-center gap-2 rounded-full border border-mauve bg-peach px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-brand;
+  }
+}
