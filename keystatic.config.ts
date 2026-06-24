@@ -3,14 +3,16 @@ import { config, fields, collection } from '@keystatic/core';
 const isDev = process.env.NODE_ENV === 'development';
 
 export default config({
-  storage: isDev
-    ? { kind: 'local' }
-    : {
+  // storage: isDev
+  //   ? { kind: 'local' }
+  //   : {
+    storage: {
       kind: 'github',
       repo: {
         owner: 'talhaticx',
         name: 'meds-ee-uet'
       }
+      // repo: 'talhaticx/meds-ee-uet'
     },
   collections: {
     posts: collection({
