@@ -20,7 +20,7 @@ const projects = await getProjects();
   <section class="container-shell py-4 lg:py-8">
     <div class="grid gap-6 md:grid-cols-2">
       {projects.map((project) => (
-        <Card href={`/projects/${project.slug}`}>
+        <Card href={`/meds-ee-uet/projects/${project.slug}`}>
           <div class="space-y-4">
             <div class="aspect-[16/9] overflow-hidden rounded-2xl bg-peach">
               {project.heroImageUrl ? <img src={project.heroImageUrl} alt={project.heroImageAlt ?? project.title} class="h-full w-full object-cover" loading="lazy" /> : null}

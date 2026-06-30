@@ -21,7 +21,7 @@ const posts = await getPosts();
   <section class="container-shell py-4 lg:py-8">
     <div class="grid gap-6 lg:grid-cols-2">
       {posts.map((post) => (
-        <Card href={`/blog/${post.slug}`}>
+        <Card href={`/meds-ee-uet/blog/${post.slug}`}>
           <div class="space-y-4">
             <div class="aspect-[16/9] overflow-hidden rounded-2xl bg-peach">
               {post.mainImageUrl ? <img src={post.mainImageUrl} alt={post.mainImageAlt ?? post.title} class="h-full w-full object-cover" loading="lazy" /> : null}

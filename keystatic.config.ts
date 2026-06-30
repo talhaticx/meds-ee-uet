@@ -24,7 +24,7 @@ export default config({
         title: fields.slug({ name: { label: 'Title' } }),
         publishedAt: fields.datetime({ label: 'Published at', validation: { isRequired: true } }),
         author: fields.relationship({ label: 'Author', collection: 'members' }),
-        mainImage: fields.image({ label: 'Main image', directory: 'public/images/posts', publicPath: '/images/posts/' }),
+        mainImage: fields.image({ label: 'Main image', directory: 'public/images/posts', publicPath: '/meds-ee-uet/images/posts/' }),
         mainImageAlt: fields.text({ label: 'Main image alt text' }),
         excerpt: fields.text({ label: 'Excerpt', multiline: true }),
         content: fields.markdoc({
@@ -32,7 +32,7 @@ export default config({
           options: {
             image: {
               directory: 'public/images/posts',
-              publicPath: '/images/posts/',
+              publicPath: '/meds-ee-uet/images/posts/',
             },
           },
         }),
@@ -55,7 +55,7 @@ export default config({
         }),
         abstract: fields.text({ label: 'Abstract', multiline: true }),
         techStack: fields.array(fields.text({ label: 'Tech' }), { label: 'Tech Stack', itemLabel: props => props.value }),
-        heroImage: fields.image({ label: 'Hero image', directory: 'public/images/projects', publicPath: '/images/projects/' }),
+        heroImage: fields.image({ label: 'Hero image', directory: 'public/images/projects', publicPath: '/meds-ee-uet/images/projects/' }),
         heroImageAlt: fields.text({ label: 'Hero image alt text' }),
         featuredOrder: fields.integer({ label: 'Featured Order' }),
         content: fields.markdoc({
@@ -63,7 +63,7 @@ export default config({
           options: {
             image: {
               directory: 'public/images/projects',
-              publicPath: '/images/projects/',
+              publicPath: '/meds-ee-uet/images/projects/',
             },
           },
         }),
@@ -79,7 +79,7 @@ export default config({
         role: fields.text({ label: 'Role' }),
         bio: fields.text({ label: 'Bio', multiline: true }),
         linkedin: fields.url({ label: 'LinkedIn' }),
-        image: fields.image({ label: 'Image', directory: 'public/images/members', publicPath: '/images/members/' }),
+        image: fields.image({ label: 'Image', directory: 'public/images/members', publicPath: '/meds-ee-uet/images/members/' }),
         imageAlt: fields.text({ label: 'Image alt text' }),
         sortOrder: fields.integer({ label: 'Sort Order' }),
       },
@@ -108,7 +108,7 @@ export default config({
         location: fields.text({ label: 'Location' }),
         description: fields.text({ label: 'Description', multiline: true }),
         imageGallery: fields.array(fields.object({
-          image: fields.image({ label: 'Image', directory: 'public/images/activities', publicPath: '/images/activities/' }),
+          image: fields.image({ label: 'Image', directory: 'public/images/activities', publicPath: '/meds-ee-uet/images/activities/' }),
           alt: fields.text({ label: 'Alt text' })
         }), { label: 'Image Gallery', itemLabel: props => props.fields.alt.value || 'Image' }),
       },
