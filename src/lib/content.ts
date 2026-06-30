@@ -7,7 +7,7 @@ async function mapMember(entry: any): Promise<Member> {
     role: entry.data.role || '',
     bio: entry.data.bio || '',
     linkedin: entry.data.linkedin || undefined,
-    imageUrl: entry.data.image ? `/images/members/${entry.data.image}` : undefined,
+    imageUrl: entry.data.image ? `/meds-ee-uet/images/members/${entry.data.image}` : undefined,
     imageAlt: entry.data.imageAlt || entry.data.name,
   };
 }
@@ -34,7 +34,7 @@ export async function getPosts(): Promise<Post[]> {
       bodyText: post.data.excerpt || '',
       entry: post,
       author,
-      mainImageUrl: post.data.mainImage ? `/images/posts/${post.data.mainImage}` : undefined,
+      mainImageUrl: post.data.mainImage ? `/meds-ee-uet/images/posts/${post.data.mainImage}` : undefined,
       mainImageAlt: post.data.mainImageAlt || post.data.title,
     };
   }));
@@ -59,7 +59,7 @@ export async function getPostBySlug(slug: string): Promise<Post | null> {
     bodyText: post.data.excerpt || '',
     entry: post,
     author,
-    mainImageUrl: post.data.mainImage ? `/images/posts/${post.data.mainImage}` : undefined,
+    mainImageUrl: post.data.mainImage ? `/meds-ee-uet/images/posts/${post.data.mainImage}` : undefined,
     mainImageAlt: post.data.mainImageAlt || post.data.title,
   };
 }
@@ -74,7 +74,7 @@ export async function getProjects(): Promise<Project[]> {
     techStack: project.data.techStack || [],
     bodyText: project.data.abstract || '',
     entry: project,
-    heroImageUrl: project.data.heroImage ? `/images/projects/${project.data.heroImage}` : undefined,
+    heroImageUrl: project.data.heroImage ? `/meds-ee-uet/images/projects/${project.data.heroImage}` : undefined,
     heroImageAlt: project.data.heroImageAlt || project.data.title,
     featuredOrder: project.data.featuredOrder,
   }));
@@ -99,7 +99,7 @@ export async function getProjectBySlug(slug: string): Promise<Project | null> {
     techStack: project.data.techStack || [],
     bodyText: project.data.abstract || '',
     entry: project,
-    heroImageUrl: project.data.heroImage ? `/images/projects/${project.data.heroImage}` : undefined,
+    heroImageUrl: project.data.heroImage ? `/meds-ee-uet/images/projects/${project.data.heroImage}` : undefined,
     heroImageAlt: project.data.heroImageAlt || project.data.title,
   };
 }
@@ -125,7 +125,7 @@ export async function getActivities(): Promise<Activity[]> {
     location: act.data.location || '',
     description: act.data.description || '',
     imageGallery: act.data.imageGallery.map((img: any) => ({
-      url: img.image ? `/images/activities/${img.image}` : '',
+      url: img.image ? `/meds-ee-uet/images/activities/${img.image}` : '',
       alt: img.alt || act.data.title,
     })),
   }));
