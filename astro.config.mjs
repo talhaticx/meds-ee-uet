@@ -6,14 +6,18 @@ import tailwindcss from '@tailwindcss/vite';
 
 // https://astro.build/config
 export default defineConfig({
-  // 1. Set output to static (required for GitHub Pages)
-  output: 'static',
+  // 1. THIS IS THE CRUCIAL LINE: 
+  output: 'static', 
   
-  // 2. Define your GitHub Pages URL and repo name
+  // 2. Make sure these match your GitHub details so the CSS loads properly
   site: 'https://talhaticx.github.io',
-  base: 'meds-ee-uet',
+  base: '/meds-ee-uet',
 
-  integrations: [react(), markdoc(), keystatic()],
+  integrations: [
+    react(), 
+    markdoc(), 
+    ...(process.env.NODE_ENV !== 'production' ? [keystatic()] : [])
+  ],
 
   vite: {
     plugins: [tailwindcss()],
