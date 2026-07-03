@@ -10,7 +10,6 @@ export const prerender = true;
 
 export async function getStaticPaths() {
   const posts = await getPosts();
-
   return posts.map((post) => ({
     params: { slug: post.slug },
     props: { post },
@@ -22,19 +21,28 @@ const { Content } = await render(post.entry);
 ---
 
 <BaseLayout title={`${post.title} | Blog`} description={post.bodyText?.slice(0, 160) ?? post.title}>
-  <section class="container-shell py-12 sm:py-16 lg:py-20">
-    <div class="max-w-4xl space-y-6">
-      <p class="eyebrow">Blog post</p>
-      <h1 class="text-5xl font-bold leading-tight sm:text-6xl">{post.title}</h1>
-      <div class="flex flex-wrap items-center gap-x-6 gap-y-3 text-sm text-ink/65">
-        <span>{formatDate(post.publishedAt)}</span>
-        <span>{post.author?.name ?? 'Center Editorial'}</span>
-        {post.author?.role ? <span>{post.author.role}</span> : null}
+  <section class="page-hero">
+    <div class="absolute inset-0 bg-gradient-to-br from-brand-deep via-brand-dark to-brand"></div>
+    <div class="absolute inset-0 opacity-[0.03]" style="background-image: linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px); background-size: 60px 60px;"></div>
+    <div class="container-shell relative z-10">
+      <div class="max-w-4xl space-y-6">
+        <p class="eyebrow">Blog post</p>
+        <h1 class="text-4xl font-bold leading-tight sm:text-5xl lg:text-6xl">{post.title}</h1>
+        <div class="flex flex-wrap items-center gap-x-6 gap-y-3 text-sm text-white/60">
+          <span>{formatDate(post.publishedAt)}</span>
+          <span>{post.author?.name ?? 'Center Editorial'}</span>
+          {post.author?.role ? <span>{post.author.role}</span> : null}
+        </div>
       </div>
+    </div>
+    <div class="absolute bottom-0 left-0 right-0">
+      <svg viewBox="0 0 1440 60" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-full" preserveAspectRatio="none">
+        <path d="M0 60V40C240 10 480 0 720 0C960 0 1200 10 1440 40V60H0Z" fill="white"/>
+      </svg>
     </div>
   </section>
 
-  <section class="container-shell grid gap-8 lg:grid-cols-[1.3fr_0.7fr] lg:items-start">
+  <section class="container-shell py-12 grid gap-8 lg:grid-cols-[1.3fr_0.7fr] lg:items-start">
     <div class="space-y-8">
       {post.mainImageUrl ? (
         <div class="overflow-hidden rounded-3xl border border-mauve bg-white shadow-soft">

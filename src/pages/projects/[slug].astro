@@ -9,7 +9,6 @@ export const prerender = true;
 
 export async function getStaticPaths() {
   const projects = await getProjects();
-
   return projects.map((project) => ({
     params: { slug: project.slug },
     props: { project },
@@ -21,19 +20,28 @@ const { Content } = await render(project.entry);
 ---
 
 <BaseLayout title={`${project.title} | Projects`} description={project.abstract}>
-  <section class="container-shell py-12 sm:py-16 lg:py-20">
-    <div class="max-w-4xl space-y-6">
-      <p class="eyebrow">Project detail</p>
-      <h1 class="text-5xl font-bold leading-tight sm:text-6xl">{project.title}</h1>
-      <div class="flex flex-wrap items-center gap-3">
-        <span class={`rounded-full px-3 py-1 text-xs font-semibold ${project.status === 'Active' ? 'bg-peach text-brand' : 'bg-mauve text-brand'}`}>{project.status}</span>
-        {project.techStack.map((tech) => <span class="rounded-full border border-mauve bg-white px-3 py-1 text-xs font-medium text-ink/70">{tech}</span>)}
+  <section class="page-hero">
+    <div class="absolute inset-0 bg-gradient-to-br from-brand-deep via-brand-dark to-brand"></div>
+    <div class="absolute inset-0 opacity-[0.03]" style="background-image: linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px); background-size: 60px 60px;"></div>
+    <div class="container-shell relative z-10">
+      <div class="max-w-4xl space-y-6">
+        <p class="eyebrow">Project detail</p>
+        <h1 class="text-4xl font-bold leading-tight sm:text-5xl lg:text-6xl">{project.title}</h1>
+        <div class="flex flex-wrap items-center gap-3">
+          <span class={`rounded-full px-3 py-1 text-xs font-semibold ${project.status === 'Active' ? 'bg-peach/20 text-peach' : 'bg-mauve/20 text-mauve'}`}>{project.status}</span>
+          {project.techStack.map((tech) => <span class="rounded-full border border-white/15 bg-white/5 px-3 py-1 text-xs font-medium text-white/70">{tech}</span>)}
+        </div>
+        <p class="text-lg leading-8">{project.abstract}</p>
       </div>
-      <p class="text-lg leading-8 text-ink/80">{project.abstract}</p>
+    </div>
+    <div class="absolute bottom-0 left-0 right-0">
+      <svg viewBox="0 0 1440 60" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-full" preserveAspectRatio="none">
+        <path d="M0 60V40C240 10 480 0 720 0C960 0 1200 10 1440 40V60H0Z" fill="white"/>
+      </svg>
     </div>
   </section>
 
-  <section class="container-shell grid gap-8 lg:grid-cols-[1.3fr_0.7fr] lg:items-start">
+  <section class="container-shell py-12 grid gap-8 lg:grid-cols-[1.3fr_0.7fr] lg:items-start">
     <div class="space-y-8">
       {project.heroImageUrl ? (
         <div class="overflow-hidden rounded-3xl border border-mauve bg-white shadow-soft">

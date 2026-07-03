@@ -7,6 +7,9 @@
 /* 3. Your custom theme configuration (Tailwind v4 CSS-first style) */
 @theme {
   --color-brand: #592E5C;
+  --color-brand-dark: #3D1F40;
+  --color-brand-deep: #2E1630;
+  --color-brand-light: #7A4D7D;
   --color-ink: #1F2937;
   --color-mauve: #EADCEA;
   --color-peach: #FFE6E6;
@@ -14,7 +17,7 @@
   --shadow-soft: 0 18px 45px rgba(89, 46, 92, 0.12);
 }
 
-/* 4. Your layer styles remain mostly the same */
+/* 4. Your layer styles */
 @layer base {
   html {
     scroll-behavior: smooth;
@@ -22,13 +25,11 @@
 
   body {
     @apply bg-white text-ink antialiased;
-    background-image:
-      radial-gradient(circle at top left, rgba(89, 46, 92, 0.06), transparent 28%),
-      radial-gradient(circle at bottom right, rgba(234, 220, 234, 0.75), transparent 32%);
+    font-family: 'IBM Plex Sans', ui-sans-serif, system-ui, sans-serif;
   }
 
   h1, h2, h3, h4, h5, h6 {
-    @apply font-display text-brand;
+    @apply font-display;
   }
 
   a {
@@ -41,6 +42,10 @@
     @apply mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8;
   }
 
+  .container-wide {
+    @apply mx-auto w-full max-w-[1440px] px-4 sm:px-6 lg:px-8;
+  }
+
   .surface {
     @apply rounded-3xl border border-mauve/80 bg-white shadow-soft;
   }
@@ -48,4 +53,102 @@
   .eyebrow {
     @apply inline-flex items-center gap-2 rounded-full border border-mauve bg-peach px-3 py-1 text-xs font-semibold uppercase tracking-[0.2em] text-brand;
   }
+
+  /* ── Dark sections use brand purple ── */
+  .section-dark {
+    @apply bg-brand text-white;
+  }
+
+  .section-light {
+    @apply bg-white text-ink;
+  }
+
+  /* ── Page hero (dark header for inner pages) ── */
+  .page-hero {
+    @apply bg-brand text-white pt-32 pb-28 lg:pt-40 lg:pb-36 relative overflow-hidden;
+  }
+
+  .page-hero .eyebrow {
+    @apply border-white/20 bg-white/10 text-peach;
+  }
+
+  .page-hero h1 {
+    @apply text-white;
+  }
+
+  .page-hero p {
+    @apply text-white/75;
+  }
+
+  /* ── Scroll-triggered animations ── */
+  .animate-on-scroll {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.7s ease-out, transform 0.7s ease-out;
+  }
+
+  .animate-on-scroll.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .animate-on-scroll.delay-1 { transition-delay: 0.1s; }
+  .animate-on-scroll.delay-2 { transition-delay: 0.2s; }
+  .animate-on-scroll.delay-3 { transition-delay: 0.3s; }
+  .animate-on-scroll.delay-4 { transition-delay: 0.4s; }
+
+  /* ── Parallax background ── */
+  .parallax-bg {
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+
+  @media (max-width: 768px) {
+    .parallax-bg {
+      background-attachment: scroll;
+    }
+  }
+}
+
+/* ── Keyframes ── */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes floatChip {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-12px); }
+}
+
+@keyframes pulseGlow {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 0.7; }
+}
+
+@keyframes slideInFromRight {
+  from {
+    opacity: 0;
+    transform: translateX(60px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.float-animation {
+  animation: floatChip 5s ease-in-out infinite;
+}
+
+.pulse-glow {
+  animation: pulseGlow 3s ease-in-out infinite;
 }

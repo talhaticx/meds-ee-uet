@@ -8,17 +8,27 @@ const activities = await getActivities();
 ---
 
 <BaseLayout title="Activities | MEDS (Maktab-e-Digital Systems)" description="Event logs, hackathons, and workshops hosted by the center.">
-  <section class="container-shell py-12 sm:py-16 lg:py-20">
-    <div class="max-w-3xl space-y-5">
-      <span class="eyebrow">Activities</span>
-      <h1 class="text-5xl font-bold leading-tight sm:text-6xl">Event logs, hackathons, and workshops from the lab.</h1>
-      <p class="text-lg leading-8 text-ink/80">
-        Track the center’s community work, including hands-on hardware sessions, student workshops, and collaborative research events.
-      </p>
+  <section class="page-hero">
+    <div class="absolute inset-0 bg-gradient-to-br from-brand-deep via-brand-dark to-brand"></div>
+    <div class="absolute inset-0 opacity-[0.03]" style="background-image: linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px); background-size: 60px 60px;"></div>
+    <div class="absolute bottom-0 right-0 w-[350px] h-[350px] rounded-full bg-peach/8 blur-[100px]"></div>
+    <div class="container-shell relative z-10">
+      <div class="max-w-3xl space-y-5">
+        <span class="eyebrow">Activities</span>
+        <h1 class="text-4xl font-bold leading-tight sm:text-5xl lg:text-6xl">Event logs, hackathons, and workshops from the lab.</h1>
+        <p class="text-lg leading-8">
+          Track the center's community work, including hands-on hardware sessions, student workshops, and collaborative research events.
+        </p>
+      </div>
+    </div>
+    <div class="absolute bottom-0 left-0 right-0">
+      <svg viewBox="0 0 1440 60" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-full" preserveAspectRatio="none">
+        <path d="M0 60V40C240 10 480 0 720 0C960 0 1200 10 1440 40V60H0Z" fill="white"/>
+      </svg>
     </div>
   </section>
 
-  <section class="container-shell py-4 lg:py-8">
+  <section class="container-shell py-12 lg:py-16">
     <div class="grid gap-6 lg:grid-cols-2">
       {activities.map((activity) => (
         <Card>

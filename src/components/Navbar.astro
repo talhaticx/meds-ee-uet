@@ -10,27 +10,76 @@ const links = [
 const currentPath = Astro.url.pathname;
 ---
 
-<header class="sticky top-0 z-50 border-b border-mauve/70 bg-white/90 backdrop-blur-xl">
+<header id="main-navbar" class="fixed top-0 left-0 right-0 z-50 bg-transparent transition-all duration-300">
   <div class="container-shell flex h-20 items-center justify-between gap-6">
     <a href="/meds-ee-uet/" class="flex items-center gap-3">
       <img src="/meds-ee-uet/images/meds_uet_logo.jpeg" alt="MEDS Logo" class="h-11 w-11 rounded-2xl object-cover shadow-soft" />
       <div>
-        <p class="font-display text-sm font-bold tracking-[0.18em] text-brand uppercase">MEDS</p>
-        <p class="text-xs text-ink/65">Maktab-e-Digital Systems</p>
+        <p class="font-display text-sm font-bold tracking-[0.18em] text-white uppercase">MEDS</p>
+        <p class="text-xs text-white/65">Maktab-e-Digital Systems</p>
       </div>
     </a>
 
     <nav class="hidden items-center gap-1 lg:flex" aria-label="Primary navigation">
       {links.map((link) => {
-        const isActive = currentPath === link.href || (link.href !== '/' && currentPath.startsWith(link.href));
+        const isHomeLink = link.href === '/meds-ee-uet/';
+        const isActive = isHomeLink
+          ? (currentPath === '/meds-ee-uet/' || currentPath === '/meds-ee-uet')
+          : currentPath.startsWith(link.href);
         return (
-          <a href={link.href} class={`rounded-full px-4 py-2 text-sm font-medium transition ${isActive ? 'bg-brand text-white' : 'text-ink/75 hover:bg-peach hover:text-brand'}`}>
+          <a href={link.href} class={`rounded-full px-4 py-2 text-sm font-medium transition ${isActive ? 'bg-white/20 text-white' : 'text-white/75 hover:bg-white/10 hover:text-white'}`}>
             {link.label}
           </a>
         );
       })}
     </nav>
 
+    <!-- Mobile hamburger -->
+    <button id="mobile-menu-btn" class="lg:hidden text-white p-2" aria-label="Toggle menu">
+      <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+        <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+      </svg>
+    </button>
+  </div>
 
+  <!-- Mobile menu panel -->
+  <div id="mobile-menu" class="hidden lg:hidden bg-brand-dark/95 backdrop-blur-xl border-t border-white/10">
+    <nav class="container-shell py-4 flex flex-col gap-1">
+      {links.map((link) => {
+        const isHomeLink = link.href === '/meds-ee-uet/';
+        const isActive = isHomeLink
+          ? (currentPath === '/meds-ee-uet/' || currentPath === '/meds-ee-uet')
+          : currentPath.startsWith(link.href);
+        return (
+          <a href={link.href} class={`rounded-xl px-4 py-3 text-sm font-medium transition ${isActive ? 'bg-white/15 text-white' : 'text-white/75 hover:bg-white/10 hover:text-white'}`}>
+            {link.label}
+          </a>
+        );
+      })}
+    </nav>
   </div>
 </header>
+
+<script>
+  // Navbar scroll behavior: transparent → solid dark
+  const navbar = document.getElementById('main-navbar');
+  function updateNavbar() {
+    if (!navbar) return;
+    if (window.scrollY > 60) {
+      navbar.classList.add('bg-brand-dark/95', 'backdrop-blur-xl', 'shadow-lg');
+      navbar.classList.remove('bg-transparent');
+    } else {
+      navbar.classList.remove('bg-brand-dark/95', 'backdrop-blur-xl', 'shadow-lg');
+      navbar.classList.add('bg-transparent');
+    }
+  }
+  window.addEventListener('scroll', updateNavbar, { passive: true });
+  updateNavbar();
+
+  // Mobile menu toggle
+  const mobileBtn = document.getElementById('mobile-menu-btn');
+  const mobileMenu = document.getElementById('mobile-menu');
+  mobileBtn?.addEventListener('click', () => {
+    mobileMenu?.classList.toggle('hidden');
+  });
+</script>

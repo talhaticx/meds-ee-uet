@@ -8,17 +8,28 @@ const members = await getMembers();
 ---
 
 <BaseLayout title="About | MEDS (Maktab-e-Digital Systems)" description="Mission, lab capabilities, and faculty/team members.">
-  <section class="container-shell py-12 sm:py-16 lg:py-20">
-    <div class="max-w-3xl space-y-5">
-      <span class="eyebrow">About the center</span>
-      <h1 class="text-5xl font-bold leading-tight sm:text-6xl">From classroom FPGA work to full-chip research and tape-out readiness.</h1>
-      <p class="text-lg leading-8 text-ink/80">
-        The center develops hardware research programs that help students and faculty build practical chip systems, verify them rigorously, and turn strong ideas into manufacturable silicon.
-      </p>
+  <!-- Dark hero header -->
+  <section class="page-hero">
+    <div class="absolute inset-0 bg-gradient-to-br from-brand-deep via-brand-dark to-brand"></div>
+    <div class="absolute inset-0 opacity-[0.03]" style="background-image: linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px); background-size: 60px 60px;"></div>
+    <div class="absolute bottom-0 right-0 w-[400px] h-[400px] rounded-full bg-peach/8 blur-[120px]"></div>
+    <div class="container-shell relative z-10">
+      <div class="max-w-3xl space-y-5">
+        <span class="eyebrow">About the center</span>
+        <h1 class="text-4xl font-bold leading-tight sm:text-5xl lg:text-6xl">From classroom FPGA work to full-chip research and tape-out readiness.</h1>
+        <p class="text-lg leading-8">
+          The center develops hardware research programs that help students and faculty build practical chip systems, verify them rigorously, and turn strong ideas into manufacturable silicon.
+        </p>
+      </div>
+    </div>
+    <div class="absolute bottom-0 left-0 right-0">
+      <svg viewBox="0 0 1440 60" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-full" preserveAspectRatio="none">
+        <path d="M0 60V40C240 10 480 0 720 0C960 0 1200 10 1440 40V60H0Z" fill="white"/>
+      </svg>
     </div>
   </section>
 
-  <section class="container-shell grid gap-6 lg:grid-cols-3">
+  <section class="container-shell py-12 grid gap-6 lg:grid-cols-3">
     <Card class="lg:col-span-2">
       <h2 class="text-2xl font-bold text-brand">Mission</h2>
       <p class="mt-4 text-sm leading-7 text-ink/75">
