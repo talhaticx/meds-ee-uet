@@ -28,21 +28,28 @@ export interface Post {
 export interface Project {
   title: string;
   slug: string;
-  status: 'Active' | 'Completed';
-  abstract: string;
-  techStack: string[];
+  status: 'Active' | 'Completed' | 'In Progress';
+  members?: string;
+  advisor?: string;
+  link?: string;
+  abstract?: string;
+  techStack?: string[];
   bodyText?: string;
   entry?: any;
   heroImageUrl?: string;
   heroImageAlt?: string;
+  sortOrder?: number;
 }
 
 export interface Publication {
   title: string;
-  authors: string;
-  publishedDate: string | Date;
-  venue: string;
-  link: string;
+  slug: string;
+  authors?: string;
+  year?: string;
+  publishedDate?: string;
+  venue?: string;
+  link?: string;
+  sortOrder?: number;
 }
 
 export interface Activity {

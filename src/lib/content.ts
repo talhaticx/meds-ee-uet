@@ -82,22 +82,20 @@ export async function getProjects(): Promise<Project[]> {
   const mapped = projects.map((project) => ({
     title: project.data.title,
     slug: project.id,
-    status: project.data.status as 'Active' | 'Completed',
+    status: (project.data.status || 'Completed') as 'Active' | 'Completed' | 'In Progress',
+    members: project.data.members || undefined,
+    advisor: project.data.advisor || undefined,
+    link: project.data.link || 'https://github.com/meds-uet',
     abstract: project.data.abstract || '',
     techStack: project.data.techStack || [],
     bodyText: project.data.abstract || '',
     entry: project,
     heroImageUrl: project.data.heroImage ? `/meds-ee-uet/images/projects/${project.data.heroImage}` : undefined,
     heroImageAlt: project.data.heroImageAlt || project.data.title,
-    featuredOrder: project.data.featuredOrder,
+    sortOrder: project.data.sortOrder ?? 999,
   }));
 
-  return mapped.sort((a, b) => {
-    if (a.featuredOrder !== undefined && b.featuredOrder !== undefined && a.featuredOrder !== null && b.featuredOrder !== null) {
-      return a.featuredOrder - b.featuredOrder;
-    }
-    return 0;
-  });
+  return mapped.sort((a, b) => (a.sortOrder ?? 999) - (b.sortOrder ?? 999));
 }
 
 export async function getProjectBySlug(slug: string): Promise<Project | null> {
@@ -107,13 +105,17 @@ export async function getProjectBySlug(slug: string): Promise<Project | null> {
   return {
     title: project.data.title,
     slug: project.id,
-    status: project.data.status as 'Active' | 'Completed',
+    status: (project.data.status || 'Completed') as 'Active' | 'Completed' | 'In Progress',
+    members: project.data.members || undefined,
+    advisor: project.data.advisor || undefined,
+    link: project.data.link || 'https://github.com/meds-uet',
     abstract: project.data.abstract || '',
     techStack: project.data.techStack || [],
     bodyText: project.data.abstract || '',
     entry: project,
     heroImageUrl: project.data.heroImage ? `/meds-ee-uet/images/projects/${project.data.heroImage}` : undefined,
     heroImageAlt: project.data.heroImageAlt || project.data.title,
+    sortOrder: project.data.sortOrder ?? 999,
   };
 }
 
@@ -121,13 +123,21 @@ export async function getPublications(): Promise<Publication[]> {
   const pubs = await getCollection('publications');
   const mapped = pubs.map(pub => ({
     title: pub.data.title,
+    slug: pub.id,
     authors: pub.data.authors || '',
-    publishedDate: pub.data.publishedDate ? new Date(pub.data.publishedDate).toISOString() : '',
+    year: pub.data.year || (pub.data.publishedDate ? new Date(pub.data.publishedDate).getFullYear().toString() : ''),
+    publishedDate: pub.data.publishedDate ? new Date(pub.data.publishedDate).toISOString() : undefined,
     venue: pub.data.venue || '',
     link: pub.data.link || '',
+    sortOrder: pub.data.sortOrder ?? 999,
   }));
 
-  return mapped.sort((a, b) => new Date(b.publishedDate).getTime() - new Date(a.publishedDate).getTime());
+  return mapped.sort((a, b) => {
+    const yearA = parseInt(a.year) || 0;
+    const yearB = parseInt(b.year) || 0;
+    if (yearB !== yearA) return yearB - yearA;
+    return (a.sortOrder ?? 999) - (b.sortOrder ?? 999);
+  });
 }
 
 export async function getActivities(): Promise<Activity[]> {

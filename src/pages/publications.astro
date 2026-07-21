@@ -1,24 +1,40 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro';
-import Card from '@/components/Card.astro';
 import Button from '@/components/Button.astro';
 import { getPublications } from '@/lib/content';
-import { formatDate } from '@/lib/format';
 
 const publications = await getPublications();
+
+function getPublicationLinkMeta(linkUrl?: string) {
+  if (!linkUrl) return null;
+  if (linkUrl.includes('arxiv.org')) {
+    return { label: 'Download arXiv PDF', isPdf: true };
+  }
+  if (linkUrl.includes('ieeexplore.ieee.org')) {
+    return { label: 'IEEE Xplore', isIeee: true };
+  }
+  if (linkUrl.includes('riscv-europe.org')) {
+    return { label: 'Conference Poster', isPoster: true };
+  }
+  if (linkUrl.includes('authorea.com')) {
+    return { label: 'Read Article', isWeb: true };
+  }
+  return { label: 'View Publication', isWeb: true };
+}
 ---
 
-<BaseLayout title="Publications | MEDS (Maktab-e-Digital Systems)" description="Published research papers with IEEE or PDF links.">
+<BaseLayout title="Publications | MEDS (Maktab-e-Digital Systems)" description="Peer-reviewed journals, conference papers, and research posters from Maktab-e-Digital Systems.">
+  <!-- Hero Section -->
   <section class="page-hero">
     <div class="absolute inset-0 bg-gradient-to-br from-brand-deep via-brand-dark to-brand"></div>
     <div class="absolute inset-0 opacity-[0.03]" style="background-image: linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px); background-size: 60px 60px;"></div>
     <div class="absolute bottom-0 left-0 w-[300px] h-[300px] rounded-full bg-mauve/8 blur-[100px]"></div>
     <div class="container-shell relative z-10">
       <div class="max-w-3xl space-y-5">
-        <span class="eyebrow">Publications</span>
-        <h1 class="text-4xl font-bold leading-tight sm:text-5xl lg:text-6xl">Research papers and published outcomes from the center.</h1>
-        <p class="text-lg leading-8">
-          Browse journal articles, conference papers, and downloadable PDFs tied to the lab's silicon and accelerator work.
+        <span class="eyebrow">Academic Research</span>
+        <h1 class="text-4xl font-bold leading-tight sm:text-5xl lg:text-6xl">Publications & Conference Papers</h1>
+        <p class="text-lg leading-8 text-white/90">
+          Peer-reviewed journal articles, conference papers, and technical posters detailing our work in RISC-V architectures, SoC design, and simulation acceleration.
         </p>
       </div>
     </div>
@@ -29,21 +45,67 @@ const publications = await getPublications();
     </div>
   </section>
 
+  <!-- Publications List -->
   <section class="container-shell py-12 lg:py-16">
-    <div class="space-y-4">
-      {publications.map((publication) => (
-        <Card>
-          <div class="flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between">
-            <div class="space-y-2">
-              <p class="text-xs uppercase tracking-[0.18em] text-ink/55">{formatDate(publication.publishedDate, { month: 'short', year: 'numeric' })}</p>
-              <h2 class="text-2xl font-bold text-brand">{publication.title}</h2>
-              <p class="text-sm leading-7 text-ink/75">{publication.authors}</p>
-              <p class="text-sm font-medium text-ink/60">{publication.venue}</p>
+    <div class="space-y-6">
+      {publications.map((pub) => {
+        const linkMeta = getPublicationLinkMeta(pub.link);
+        return (
+          <div class="group relative rounded-3xl border border-slate-200/90 bg-white p-6 sm:p-8 shadow-sm hover:shadow-xl hover:border-brand/40 transition-all duration-300">
+            <div class="flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between">
+              <div class="space-y-3 max-w-4xl">
+                <div class="flex flex-wrap items-center gap-3">
+                  <span class="rounded-full bg-brand-dark px-3 py-1 text-xs font-extrabold text-white">
+                    {pub.year}
+                  </span>
+                  <span class="text-xs font-bold uppercase tracking-wider text-brand">
+                    {pub.venue}
+                  </span>
+                </div>
+
+                <h2 class="text-xl sm:text-2xl font-bold text-brand-dark leading-snug group-hover:text-brand transition-colors">
+                  {pub.title}
+                </h2>
+
+                <p class="text-sm font-medium text-ink/75 leading-relaxed">
+                  <span class="font-bold text-brand-dark/90">Authors:</span> {pub.authors}
+                </p>
+              </div>
+
+              {/* Action Link */}
+              <div class="shrink-0 flex items-center lg:self-center">
+                {pub.link ? (
+                  <a
+                    href={pub.link}
+                    target="_blank"
+                    rel="noreferrer"
+                    class="inline-flex items-center gap-2.5 rounded-xl bg-brand px-5 py-3 text-xs font-bold text-white shadow-md hover:bg-brand-dark hover:shadow-lg transition-all duration-200"
+                  >
+                    {linkMeta?.isPdf && (
+                      <svg class="w-4 h-4 fill-none stroke-currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                      </svg>
+                    )}
+                    {linkMeta?.isIeee && (
+                      <svg class="w-4 h-4 fill-none stroke-currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v12a2 2 0 01-2 2zM12 11v6m-3-3h6"/>
+                      </svg>
+                    )}
+                    <span>{linkMeta?.label || 'View Publication'}</span>
+                    <svg class="w-3.5 h-3.5 fill-none stroke-currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
+                    </svg>
+                  </a>
+                ) : (
+                  <span class="inline-flex items-center gap-1.5 rounded-xl bg-slate-100 px-4 py-2.5 text-xs font-bold text-slate-500 border border-slate-200">
+                    <span>Published / Presented</span>
+                  </span>
+                )}
+              </div>
             </div>
-            <Button href={publication.link} variant="secondary">View paper</Button>
           </div>
-        </Card>
-      ))}
+        );
+      })}
     </div>
   </section>
 </BaseLayout>

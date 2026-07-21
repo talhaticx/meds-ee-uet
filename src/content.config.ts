@@ -14,15 +14,18 @@ const posts = defineCollection({
 });
 
 const projects = defineCollection({
-  loader: glob({ pattern: '**/*.{md,mdoc}', base: './src/content/projects' }),
+  loader: glob({ pattern: '**/*.{yml,yaml,md,mdoc}', base: './src/content/projects' }),
   schema: z.object({
     title: z.string(),
-    status: z.enum(['Active', 'Completed']).default('Active'),
+    status: z.enum(['Active', 'Completed', 'In Progress']).default('Completed'),
+    members: z.string().nullable().optional(),
+    advisor: z.string().nullable().optional(),
+    link: z.string().nullable().optional(),
     abstract: z.string().nullable().optional(),
     techStack: z.array(z.string()).default([]),
     heroImage: z.string().nullable().optional(),
     heroImageAlt: z.string().nullable().optional(),
-    featuredOrder: z.number().nullable().optional(),
+    sortOrder: z.number().nullable().optional(),
   }),
 });
 
@@ -49,9 +52,11 @@ const publications = defineCollection({
   schema: z.object({
     title: z.string(),
     authors: z.string().nullable().optional(),
+    year: z.string().nullable().optional(),
     publishedDate: z.coerce.date().nullable().optional(),
     venue: z.string().nullable().optional(),
-    link: z.string().url().nullable().optional(),
+    link: z.string().nullable().optional(),
+    sortOrder: z.number().nullable().optional(),
   }),
 });
 
