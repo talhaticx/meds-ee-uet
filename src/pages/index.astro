@@ -14,10 +14,10 @@ const { latestPosts, featuredProjects, latestActivities } = await getHomeSummari
 
 <BaseLayout title="MEDS — Maktab-e-Digital Systems" description="University center for chip design, hardware tape-outs, and FPGA accelerators at UET, Lahore.">
   <HeroSection />
-  <HighlightsCarousel posts={latestPosts} projects={featuredProjects} />
-  <StatsBanner />
   <ResearchDomains />
-  <ParallaxFeature />
-  <ResourcesGrid posts={latestPosts} />
+  <StatsBanner />
+  <HighlightsCarousel posts={latestPosts} />
+  <!-- <ParallaxFeature /> -->
+  <!-- <ResourcesGrid posts={latestPosts} /> -->
   <CTABanner />
 </BaseLayout>

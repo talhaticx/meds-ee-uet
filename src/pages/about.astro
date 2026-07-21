@@ -21,8 +21,7 @@ const leadershipMembers = members
   });
 
 const mentorMembers = members.filter(m => m.category === 'mentor' && !isLeadership(m));
-const raMembers = members.filter(m => m.category === 'ra' && !isLeadership(m));
-const traineeMembers = members.filter(m => m.category === 'trainee' && !isLeadership(m));
+const raMembers = members.filter(m => (m.category === 'ra' || m.category === 'trainee') && !isLeadership(m));
 const alumniMembers = members.filter(m => m.category === 'alumni' && !isLeadership(m));
 
 function getInitials(name: string): string {
@@ -86,61 +85,40 @@ function getInitials(name: string): string {
         <p class="text-sm text-ink/75 mt-2">Core pillars driving our education, research, industry partnerships, and open-source contributions.</p>
       </div>
 
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-        <div class="flex gap-4 p-5 rounded-2xl bg-white border border-slate-100 shadow-sm hover:shadow-md hover:border-brand/30 transition-all">
-          <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-brand/10 text-brand font-extrabold text-sm">01</div>
-          <div>
-            <h3 class="font-bold text-brand-dark text-base">Education and Training</h3>
-            <p class="mt-1.5 text-xs text-ink/75 leading-relaxed">Provide hands-on training to undergraduate students and produce graduates who are highly sought after by local and international industry and academia.</p>
-          </div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+        <div class="flex items-center gap-4 p-4 rounded-xl bg-white border-l-4 border-l-brand border border-slate-100 shadow-sm hover:shadow-md hover:border-brand/40 hover:-translate-y-0.5 transition-all duration-300">
+          <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-brand/10 text-brand font-extrabold text-sm">01</div>
+          <h3 class="font-bold text-brand-dark text-sm sm:text-base leading-tight">Education and Training</h3>
         </div>
 
-        <div class="flex gap-4 p-5 rounded-2xl bg-white border border-slate-100 shadow-sm hover:shadow-md hover:border-brand/30 transition-all">
-          <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-brand/10 text-brand font-extrabold text-sm">02</div>
-          <div>
-            <h3 class="font-bold text-brand-dark text-base">Open-Source Contribution</h3>
-            <p class="mt-1.5 text-xs text-ink/75 leading-relaxed">Contribute significantly to open-source projects in RISC-V design and verification.</p>
-          </div>
+        <div class="flex items-center gap-4 p-4 rounded-xl bg-white border-l-4 border-l-brand border border-slate-100 shadow-sm hover:shadow-md hover:border-brand/40 hover:-translate-y-0.5 transition-all duration-300">
+          <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-brand/10 text-brand font-extrabold text-sm">02</div>
+          <h3 class="font-bold text-brand-dark text-sm sm:text-base leading-tight">Open-Source Contribution</h3>
         </div>
 
-        <div class="flex gap-4 p-5 rounded-2xl bg-white border border-slate-100 shadow-sm hover:shadow-md hover:border-brand/30 transition-all">
-          <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-brand/10 text-brand font-extrabold text-sm">03</div>
-          <div>
-            <h3 class="font-bold text-brand-dark text-base">Interdisciplinary Collaboration</h3>
-            <p class="mt-1.5 text-xs text-ink/75 leading-relaxed">Engage students and faculty from other departments within the University in research and development activities in the lab.</p>
-          </div>
+        <div class="flex items-center gap-4 p-4 rounded-xl bg-white border-l-4 border-l-brand border border-slate-100 shadow-sm hover:shadow-md hover:border-brand/40 hover:-translate-y-0.5 transition-all duration-300">
+          <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-brand/10 text-brand font-extrabold text-sm">03</div>
+          <h3 class="font-bold text-brand-dark text-sm sm:text-base leading-tight">Interdisciplinary Collaboration</h3>
         </div>
 
-        <div class="flex gap-4 p-5 rounded-2xl bg-white border border-slate-100 shadow-sm hover:shadow-md hover:border-brand/30 transition-all">
-          <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-brand/10 text-brand font-extrabold text-sm">04</div>
-          <div>
-            <h3 class="font-bold text-brand-dark text-base">Industry-Academia Collaboration</h3>
-            <p class="mt-1.5 text-xs text-ink/75 leading-relaxed">Foster partnerships with industry to bridge the gap between academia and real-world applications.</p>
-          </div>
+        <div class="flex items-center gap-4 p-4 rounded-xl bg-white border-l-4 border-l-brand border border-slate-100 shadow-sm hover:shadow-md hover:border-brand/40 hover:-translate-y-0.5 transition-all duration-300">
+          <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-brand/10 text-brand font-extrabold text-sm">04</div>
+          <h3 class="font-bold text-brand-dark text-sm sm:text-base leading-tight">Industry-Academia Collaboration</h3>
         </div>
 
-        <div class="flex gap-4 p-5 rounded-2xl bg-white border border-slate-100 shadow-sm hover:shadow-md hover:border-brand/30 transition-all">
-          <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-brand/10 text-brand font-extrabold text-sm">05</div>
-          <div>
-            <h3 class="font-bold text-brand-dark text-base">Financial Sustainability</h3>
-            <p class="mt-1.5 text-xs text-ink/75 leading-relaxed">Achieve self-sustainability through industrial projects and Verification IP development.</p>
-          </div>
+        <div class="flex items-center gap-4 p-4 rounded-xl bg-white border-l-4 border-l-brand border border-slate-100 shadow-sm hover:shadow-md hover:border-brand/40 hover:-translate-y-0.5 transition-all duration-300">
+          <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-brand/10 text-brand font-extrabold text-sm">05</div>
+          <h3 class="font-bold text-brand-dark text-sm sm:text-base leading-tight">Financial Sustainability</h3>
         </div>
 
-        <div class="flex gap-4 p-5 rounded-2xl bg-white border border-slate-100 shadow-sm hover:shadow-md hover:border-brand/30 transition-all">
-          <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-brand/10 text-brand font-extrabold text-sm">06</div>
-          <div>
-            <h3 class="font-bold text-brand-dark text-base">Competitions and Funded Projects</h3>
-            <p class="mt-1.5 text-xs text-ink/75 leading-relaxed">Win funded projects and participate in international competitions in the field of RISC-V.</p>
-          </div>
+        <div class="flex items-center gap-4 p-4 rounded-xl bg-white border-l-4 border-l-brand border border-slate-100 shadow-sm hover:shadow-md hover:border-brand/40 hover:-translate-y-0.5 transition-all duration-300">
+          <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-brand/10 text-brand font-extrabold text-sm">06</div>
+          <h3 class="font-bold text-brand-dark text-sm sm:text-base leading-tight">Competitions and Funded Projects</h3>
         </div>
 
-        <div class="flex gap-4 p-5 rounded-2xl bg-white border border-slate-100 shadow-sm hover:shadow-md hover:border-brand/30 transition-all md:col-span-2 lg:col-span-1">
-          <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-brand/10 text-brand font-extrabold text-sm">07</div>
-          <div>
-            <h3 class="font-bold text-brand-dark text-base">Global Presence</h3>
-            <p class="mt-1.5 text-xs text-ink/75 leading-relaxed">Establish a strong presence in the global RISC-V community.</p>
-          </div>
+        <div class="flex items-center gap-4 p-4 rounded-xl bg-white border-l-4 border-l-brand border border-slate-100 shadow-sm hover:shadow-md hover:border-brand/40 hover:-translate-y-0.5 transition-all duration-300">
+          <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-brand/10 text-brand font-extrabold text-sm">06</div>
+          <h3 class="font-bold text-brand-dark text-sm sm:text-base leading-tight">Global Presence</h3>
         </div>
       </div>
     </div>
@@ -290,42 +268,10 @@ function getInitials(name: string): string {
       </div>
     )}
 
-    <!-- Trainees -->
-    {traineeMembers.length > 0 && (
-      <div class="space-y-5">
-        <div class="flex items-center gap-3 border-b border-slate-200 pb-3">
-          <h3 class="text-2xl font-bold text-brand">Trainees</h3>
-          <span class="text-xs font-bold px-3 py-1 rounded-full bg-brand-dark text-peach">{traineeMembers.length}</span>
-        </div>
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {traineeMembers.map((member) => (
-            <div class="group relative overflow-hidden rounded-full p-[1px] bg-gradient-to-r from-brand-deep via-brand-dark to-brand shadow-sm hover:shadow-xl hover:shadow-brand-dark/25 hover:-translate-y-1 transition-all duration-300">
-              <div class="relative z-10 flex items-center justify-between gap-3.5 rounded-full bg-gradient-to-r from-[#592E5C] to-[#3E1A40] group-hover:from-[#6B376E] group-hover:to-[#4C204F] px-5 py-3.5 min-h-[72px] transition-all duration-300">
-                <div class="flex items-center gap-3.5 min-w-0">
-                  <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-white/15 backdrop-blur-md border border-white/20 text-peach font-extrabold text-sm tracking-wider shadow-inner group-hover:bg-peach group-hover:text-brand-dark transition-all duration-300">
-                    {getInitials(member.name)}
-                  </div>
-                  <div class="flex flex-col min-w-0">
-                    <span class="font-bold text-sm sm:text-base text-white group-hover:text-peach transition-colors truncate">{member.name}</span>
-                    <span class="text-xs text-white/75 truncate">{member.role}</span>
-                  </div>
-                </div>
-                {member.linkedin ? (
-                  <a href={member.linkedin} target="_blank" rel="noreferrer" class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-white/10 hover:bg-peach hover:text-brand-dark text-white/90 transition-all duration-200 border border-white/15" title="LinkedIn Profile">
-                    <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24">
-                      <path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.46 10.9v8.37H9.25V10.9H6.46M7.86 6.66a1.63 1.63 0 1 0 0 3.26 1.63 1.63 0 0 0 0-3.26Z"/>
-                    </svg>
-                  </a>
-                ) : null}
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-    )}
+    <!-- Trainees (Merged into Research Assistants above) -->
 
     <!-- Alumni Network -->
-    {alumniMembers.length > 0 && (
+    <!-- {alumniMembers.length > 0 && (
       <div class="space-y-5 pt-8 border-t border-slate-200">
         <div class="flex items-center gap-3">
           <h3 class="text-2xl font-bold text-brand">Alumni & Industry Fellows</h3>
@@ -347,7 +293,7 @@ function getInitials(name: string): string {
           ))}
         </div>
       </div>
-    )}
+    )} -->
 
   </section>
 

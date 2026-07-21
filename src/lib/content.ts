@@ -160,7 +160,7 @@ export async function getHomeSummaries() {
   const [posts, projects, activities] = await Promise.all([getPosts(), getProjects(), getActivities()]);
 
   return {
-    latestPosts: posts.slice(0, 2),
+    latestPosts: posts.slice(0, 5),
     featuredProjects: projects.slice(0, 2),
     latestActivities: activities.slice(0, 2),
   };
