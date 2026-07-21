@@ -34,6 +34,7 @@ export async function getPosts(): Promise<Post[]> {
       bodyText: post.data.excerpt || '',
       entry: post,
       author,
+      rawAuthor: post.data.author || undefined,
       mainImageUrl: post.data.mainImage ? `/meds-ee-uet/images/posts/${post.data.mainImage}` : undefined,
       mainImageAlt: post.data.mainImageAlt || post.data.title,
     };
@@ -59,6 +60,7 @@ export async function getPostBySlug(slug: string): Promise<Post | null> {
     bodyText: post.data.excerpt || '',
     entry: post,
     author,
+    rawAuthor: post.data.author || undefined,
     mainImageUrl: post.data.mainImage ? `/meds-ee-uet/images/posts/${post.data.mainImage}` : undefined,
     mainImageAlt: post.data.mainImageAlt || post.data.title,
   };

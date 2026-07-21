@@ -152,3 +152,76 @@
 .pulse-glow {
   animation: pulseGlow 3s ease-in-out infinite;
 }
+
+/* ── Custom Prose for Blog/Markdoc Content ── */
+.prose-custom {
+  @apply text-ink/85 leading-relaxed text-[16px] sm:text-[17px];
+}
+
+.prose-custom h2 {
+  @apply text-2xl font-bold mt-10 mb-4 text-brand-dark font-display border-b border-mauve pb-2 tracking-tight;
+}
+
+.prose-custom h3 {
+  @apply text-xl font-bold mt-8 mb-3 text-brand tracking-tight;
+}
+
+.prose-custom h4 {
+  @apply text-lg font-semibold mt-6 mb-2 text-ink;
+}
+
+.prose-custom p {
+  @apply my-5 leading-relaxed text-ink/80;
+}
+
+.prose-custom a {
+  @apply text-brand font-semibold underline decoration-brand/30 hover:decoration-brand transition-all;
+}
+
+.prose-custom ul {
+  @apply list-disc my-5 pl-6 space-y-2;
+}
+
+.prose-custom ol {
+  @apply list-decimal my-5 pl-6 space-y-2;
+}
+
+.prose-custom li {
+  @apply text-ink/80;
+}
+
+.prose-custom blockquote {
+  @apply border-l-4 border-brand bg-mauve/20 px-6 py-4 my-6 rounded-r-xl italic text-ink/75;
+}
+
+.prose-custom blockquote p {
+  @apply m-0;
+}
+
+.prose-custom code:not(pre code) {
+  @apply bg-mauve/40 text-brand px-1.5 py-0.5 rounded text-sm font-mono font-medium;
+}
+
+.prose-custom img {
+  @apply rounded-2xl border border-mauve/80 my-8 mx-auto shadow-sm max-w-full h-auto;
+}
+
+.prose-custom hr {
+  @apply border-mauve/60 my-10;
+}
+
+.prose-custom table {
+  @apply w-full border-collapse my-8 text-sm overflow-hidden rounded-xl border border-mauve/50;
+}
+
+.prose-custom th {
+  @apply bg-brand/5 text-brand font-semibold px-4 py-3 text-left border-b border-mauve;
+}
+
+.prose-custom td {
+  @apply px-4 py-3 border-b border-mauve/40 text-ink/80;
+}
+
+.prose-custom tr:last-child td {
+  @apply border-b-0;
+}

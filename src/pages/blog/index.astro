@@ -39,7 +39,7 @@ const posts = await getPosts();
             <p class="text-xs uppercase tracking-[0.18em] text-ink/55">{formatDate(post.publishedAt)}</p>
             <h2 class="text-2xl font-bold text-brand">{post.title}</h2>
             <p class="text-sm leading-7 text-ink/75">{post.bodyText?.slice(0, 170) ?? 'Read the latest technical write-up from the center.'}</p>
-            <p class="text-sm font-medium text-ink/60">{post.author?.name ?? 'Center Editorial'}</p>
+            <p class="text-sm font-medium text-ink/60">{post.author?.name ?? post.rawAuthor ?? 'Center Editorial'}</p>
           </div>
         </Card>
       ))}

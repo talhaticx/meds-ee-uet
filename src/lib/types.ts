@@ -14,6 +14,7 @@ export interface Post {
   bodyText?: string;
   entry?: any;
   author?: Member;
+  rawAuthor?: string;
   mainImageUrl?: string;
   mainImageAlt?: string;
 }
