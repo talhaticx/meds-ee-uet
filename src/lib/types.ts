@@ -1,10 +1,16 @@
 export interface Member {
   name: string;
   role: string;
-  bio: string;
+  category?: 'leadership' | 'mentor' | 'ra' | 'trainee' | 'alumni';
+  bio?: string;
   linkedin?: string;
+  email?: string;
+  institution?: string;
+  graduationYear?: string;
+  degree?: string;
   imageUrl?: string;
   imageAlt?: string;
+  sortOrder?: number;
 }
 
 export interface Post {

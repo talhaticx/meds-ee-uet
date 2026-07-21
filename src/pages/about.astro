@@ -5,9 +5,34 @@ import Button from '@/components/Button.astro';
 import { getMembers } from '@/lib/content';
 
 const members = await getMembers();
+
+const leadershipOrder = ['Director', 'Senior Manager', 'Manager', 'Graduate Manager'];
+
+const isLeadership = (m: any) => 
+  m.category === 'leadership' || 
+  leadershipOrder.some(role => m.role.toLowerCase().includes(role.toLowerCase()));
+
+const leadershipMembers = members
+  .filter(m => isLeadership(m) && m.name !== 'Center Editorial')
+  .sort((a, b) => {
+    const idxA = leadershipOrder.findIndex(role => a.role.toLowerCase().includes(role.toLowerCase()));
+    const idxB = leadershipOrder.findIndex(role => b.role.toLowerCase().includes(role.toLowerCase()));
+    return (idxA !== -1 ? idxA : 99) - (idxB !== -1 ? idxB : 99);
+  });
+
+const mentorMembers = members.filter(m => m.category === 'mentor' && !isLeadership(m));
+const raMembers = members.filter(m => m.category === 'ra' && !isLeadership(m));
+const traineeMembers = members.filter(m => m.category === 'trainee' && !isLeadership(m));
+const alumniMembers = members.filter(m => m.category === 'alumni' && !isLeadership(m));
+
+function getInitials(name: string): string {
+  const parts = name.replace(/^(Dr\.|Mr\.|Ms\.|Engr\.)\s+/, '').trim().split(/\s+/);
+  if (parts.length === 1) return parts[0].substring(0, 2).toUpperCase();
+  return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
+}
 ---
 
-<BaseLayout title="About | MEDS (Maktab-e-Digital Systems)" description="Mission, lab capabilities, and faculty/team members.">
+<BaseLayout title="About | MEDS (Maktab-e-Digital Systems)" description="Mission, Vision, Objectives, Executive Leadership, and Team Members.">
   <!-- Dark hero header -->
   <section class="page-hero">
     <div class="absolute inset-0 bg-gradient-to-br from-brand-deep via-brand-dark to-brand"></div>
@@ -15,10 +40,10 @@ const members = await getMembers();
     <div class="absolute bottom-0 right-0 w-[400px] h-[400px] rounded-full bg-peach/8 blur-[120px]"></div>
     <div class="container-shell relative z-10">
       <div class="max-w-3xl space-y-5">
-        <span class="eyebrow">About the center</span>
-        <h1 class="text-4xl font-bold leading-tight sm:text-5xl lg:text-6xl">From classroom FPGA work to full-chip research and tape-out readiness.</h1>
-        <p class="text-lg leading-8">
-          The center develops hardware research programs that help students and faculty build practical chip systems, verify them rigorously, and turn strong ideas into manufacturable silicon.
+        <span class="eyebrow">About the Center</span>
+        <h1 class="text-4xl font-bold leading-tight sm:text-5xl lg:text-6xl">Maktab-e-Digital Systems</h1>
+        <p class="text-lg leading-8 text-white/90">
+          A self-sustainable hub for digital design and verification, developing industry-leading silicon IPs, open-source RISC-V innovations, and high-caliber engineering talent.
         </p>
       </div>
     </div>
@@ -29,59 +54,304 @@ const members = await getMembers();
     </div>
   </section>
 
-  <section class="container-shell py-12 grid gap-6 lg:grid-cols-3">
-    <Card class="lg:col-span-2">
-      <h2 class="text-2xl font-bold text-brand">Mission</h2>
-      <p class="mt-4 text-sm leading-7 text-ink/75">
-        We combine research, teaching, and prototyping so the full hardware lifecycle is visible in one place: architecture exploration, RTL, verification, physical design, tape-out, and post-silicon bring-up.
-      </p>
-      <p class="mt-4 text-sm leading-7 text-ink/75">
-        The lab is designed around reproducibility. Every project keeps its RTL, scripts, measurement notes, and publication assets aligned so the center can move quickly without losing technical traceability.
-      </p>
+  <!-- Mission & Vision -->
+  <section class="container-shell py-12 grid gap-6 md:grid-cols-2">
+    <Card class="flex flex-col justify-between border-l-4 border-brand shadow-sm">
+      <div>
+        <span class="text-xs font-extrabold uppercase tracking-widest text-brand">Our Purpose</span>
+        <h2 class="text-2xl font-bold text-brand-dark mt-1">Mission Statement</h2>
+        <p class="mt-4 text-sm sm:text-base leading-relaxed text-ink/80">
+          Maktab e Digital Systems (MEDS) is committed to becoming a self-sustainable hub for digital design and verification. We aim to develop industry-leading projects and intellectual property, compete on an international level, and produce highly skilled graduates for both local and global markets.
+        </p>
+      </div>
     </Card>
 
-    <Card>
-      <h2 class="text-2xl font-bold text-brand">Capabilities</h2>
-      <ul class="mt-4 space-y-3 text-sm text-ink/75">
-        <li class="rounded-2xl bg-peach px-4 py-3">RISC-V and custom CPU design</li>
-        <li class="rounded-2xl bg-peach px-4 py-3">FPGA prototyping and emulation</li>
-        <li class="rounded-2xl bg-peach px-4 py-3">Verification, synthesis, and STA</li>
-        <li class="rounded-2xl bg-peach px-4 py-3">Open-source EDA and automation flows</li>
-      </ul>
+    <Card class="flex flex-col justify-between border-l-4 border-brand-dark shadow-sm">
+      <div>
+        <span class="text-xs font-extrabold uppercase tracking-widest text-brand">Our Outlook</span>
+        <h2 class="text-2xl font-bold text-brand-dark mt-1">Vision</h2>
+        <p class="mt-4 text-sm sm:text-base leading-relaxed text-ink/80">
+          To be a leading research lab in digital systems, recognized for our innovative IPs, successful industrial projects, and high-caliber graduates who excel in the local and international digital design and verification industry.
+        </p>
+      </div>
     </Card>
   </section>
 
-  <section class="container-shell py-12">
-    <div class="flex items-end justify-between gap-4">
-      <div>
-        <p class="eyebrow">Faculty and team</p>
-        <h2 class="mt-4 text-3xl font-bold sm:text-4xl">People behind the research</h2>
+  <!-- Objectives -->
+  <section class="container-shell py-4">
+    <div class="surface rounded-3xl p-6 sm:p-10 shadow-sm border border-slate-200">
+      <div class="max-w-xl mb-8">
+        <span class="eyebrow">Strategic Goals</span>
+        <h2 class="text-3xl font-bold text-brand mt-1">Key Objectives</h2>
+        <p class="text-sm text-ink/75 mt-2">Core pillars driving our education, research, industry partnerships, and open-source contributions.</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+        <div class="flex gap-4 p-5 rounded-2xl bg-white border border-slate-100 shadow-sm hover:shadow-md hover:border-brand/30 transition-all">
+          <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-brand/10 text-brand font-extrabold text-sm">01</div>
+          <div>
+            <h3 class="font-bold text-brand-dark text-base">Education and Training</h3>
+            <p class="mt-1.5 text-xs text-ink/75 leading-relaxed">Provide hands-on training to undergraduate students and produce graduates who are highly sought after by local and international industry and academia.</p>
+          </div>
+        </div>
+
+        <div class="flex gap-4 p-5 rounded-2xl bg-white border border-slate-100 shadow-sm hover:shadow-md hover:border-brand/30 transition-all">
+          <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-brand/10 text-brand font-extrabold text-sm">02</div>
+          <div>
+            <h3 class="font-bold text-brand-dark text-base">Open-Source Contribution</h3>
+            <p class="mt-1.5 text-xs text-ink/75 leading-relaxed">Contribute significantly to open-source projects in RISC-V design and verification.</p>
+          </div>
+        </div>
+
+        <div class="flex gap-4 p-5 rounded-2xl bg-white border border-slate-100 shadow-sm hover:shadow-md hover:border-brand/30 transition-all">
+          <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-brand/10 text-brand font-extrabold text-sm">03</div>
+          <div>
+            <h3 class="font-bold text-brand-dark text-base">Interdisciplinary Collaboration</h3>
+            <p class="mt-1.5 text-xs text-ink/75 leading-relaxed">Engage students and faculty from other departments within the University in research and development activities in the lab.</p>
+          </div>
+        </div>
+
+        <div class="flex gap-4 p-5 rounded-2xl bg-white border border-slate-100 shadow-sm hover:shadow-md hover:border-brand/30 transition-all">
+          <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-brand/10 text-brand font-extrabold text-sm">04</div>
+          <div>
+            <h3 class="font-bold text-brand-dark text-base">Industry-Academia Collaboration</h3>
+            <p class="mt-1.5 text-xs text-ink/75 leading-relaxed">Foster partnerships with industry to bridge the gap between academia and real-world applications.</p>
+          </div>
+        </div>
+
+        <div class="flex gap-4 p-5 rounded-2xl bg-white border border-slate-100 shadow-sm hover:shadow-md hover:border-brand/30 transition-all">
+          <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-brand/10 text-brand font-extrabold text-sm">05</div>
+          <div>
+            <h3 class="font-bold text-brand-dark text-base">Financial Sustainability</h3>
+            <p class="mt-1.5 text-xs text-ink/75 leading-relaxed">Achieve self-sustainability through industrial projects and Verification IP development.</p>
+          </div>
+        </div>
+
+        <div class="flex gap-4 p-5 rounded-2xl bg-white border border-slate-100 shadow-sm hover:shadow-md hover:border-brand/30 transition-all">
+          <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-brand/10 text-brand font-extrabold text-sm">06</div>
+          <div>
+            <h3 class="font-bold text-brand-dark text-base">Competitions and Funded Projects</h3>
+            <p class="mt-1.5 text-xs text-ink/75 leading-relaxed">Win funded projects and participate in international competitions in the field of RISC-V.</p>
+          </div>
+        </div>
+
+        <div class="flex gap-4 p-5 rounded-2xl bg-white border border-slate-100 shadow-sm hover:shadow-md hover:border-brand/30 transition-all md:col-span-2 lg:col-span-1">
+          <div class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-brand/10 text-brand font-extrabold text-sm">07</div>
+          <div>
+            <h3 class="font-bold text-brand-dark text-base">Global Presence</h3>
+            <p class="mt-1.5 text-xs text-ink/75 leading-relaxed">Establish a strong presence in the global RISC-V community.</p>
+          </div>
+        </div>
       </div>
     </div>
+  </section>
 
-    <div class="mt-8 grid gap-6 md:grid-cols-2 xl:grid-cols-4">
-      {members.map((member) => (
-        <Card>
-          <div class="space-y-4">
-            <div class="aspect-[4/5] overflow-hidden rounded-2xl bg-mauve">
-              {member.imageUrl ? <img src={member.imageUrl} alt={member.imageAlt ?? member.name} class="h-full w-full object-cover" loading="lazy" /> : null}
+  <!-- Faculty & Executive Leadership Cards -->
+  <section class="container-shell py-12">
+    <div class="flex flex-col gap-2 max-w-2xl mb-8">
+      <span class="eyebrow">Faculty & Executive Leadership</span>
+      <h2 class="text-3xl font-bold sm:text-4xl text-brand tracking-tight">Executive Team</h2>
+      <p class="text-sm sm:text-base text-ink/75 leading-relaxed mt-1">
+        Faculty leadership and key managers directing MEDS chip research programs, lab operations, and tape-out initiatives.
+      </p>
+    </div>
+
+    <div class="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5">
+      {leadershipMembers.map((member) => (
+        <div class="group relative flex flex-col justify-between rounded-3xl border border-brand/20 bg-white p-5 shadow-md hover:shadow-2xl hover:border-brand hover:-translate-y-1.5 transition-all duration-300 overflow-hidden">
+          {/* Subtle top gradient accent */}
+          <div class="absolute top-0 left-0 right-0 h-28 bg-gradient-to-br from-brand-deep/15 via-brand/10 to-transparent pointer-events-none"></div>
+
+          <div class="relative z-10 space-y-4">
+            {/* Image or Executive Avatar Box */}
+            <div class="aspect-[4/5] overflow-hidden rounded-2xl bg-gradient-to-br from-brand-deep via-brand-dark to-brand relative flex items-center justify-center shadow-lg border border-white/20">
+              <div class="absolute inset-0 opacity-15" style="background-image: radial-gradient(circle at 2px 2px, white 1px, transparent 0); background-size: 16px 16px;"></div>
+
+              {member.imageUrl ? (
+                <img src={member.imageUrl} alt={member.imageAlt ?? member.name} class="h-full w-full object-cover group-hover:scale-105 transition-transform duration-500 relative z-10" loading="lazy" />
+              ) : (
+                <div class="relative z-10 flex flex-col items-center justify-center p-4 text-center">
+                  <div class="w-20 h-20 rounded-2xl bg-white/15 backdrop-blur-md border border-white/30 flex items-center justify-center shadow-xl text-peach font-extrabold text-2xl sm:text-3xl tracking-wider group-hover:scale-110 group-hover:bg-peach group-hover:text-brand-dark transition-all duration-300">
+                    {getInitials(member.name)}
+                  </div>
+                  <span class="mt-3.5 px-3 py-1 rounded-full text-[10px] tracking-widest uppercase text-white font-bold bg-white/15 backdrop-blur-xs border border-white/20 shadow-sm">
+                    Executive
+                  </span>
+                </div>
+              )}
             </div>
+
             <div>
-              <p class="text-xs uppercase tracking-[0.18em] text-ink/55">{member.role}</p>
-              <h3 class="mt-2 text-xl font-bold text-brand">{member.name}</h3>
+              <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-extrabold bg-brand/10 text-brand border border-brand/15">
+                <span class="w-2 h-2 rounded-full bg-brand animate-pulse"></span>
+                {member.role}
+              </span>
+              <h3 class="mt-2.5 text-lg sm:text-xl font-extrabold text-brand-dark group-hover:text-brand transition-colors leading-snug">{member.name}</h3>
             </div>
-            <p class="text-sm leading-7 text-ink/70">{member.bio}</p>
+
+            {member.bio ? (
+              <p class="text-xs leading-6 text-ink/75 line-clamp-3">{member.bio}</p>
+            ) : null}
+          </div>
+
+          <!-- Social / Contact Actions -->
+          <div class="relative z-10 mt-6 pt-4 border-t border-slate-100 flex items-center justify-between gap-2">
             {member.linkedin ? (
-              <a href={member.linkedin} target="_blank" rel="noreferrer" class="text-sm font-semibold text-brand hover:text-brand/80">
-                LinkedIn profile
+              <a href={member.linkedin} target="_blank" rel="noreferrer" class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-brand/5 hover:bg-brand text-brand hover:text-white text-xs font-bold transition-all duration-200" title="LinkedIn Profile">
+                <svg class="w-3.5 h-3.5 fill-current" viewBox="0 0 24 24">
+                  <path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.46 10.9v8.37H9.25V10.9H6.46M7.86 6.66a1.63 1.63 0 1 0 0 3.26 1.63 1.63 0 0 0 0-3.26Z"/>
+                </svg>
+                <span>LinkedIn</span>
+              </a>
+            ) : <div />}
+
+            {member.email ? (
+              <a href={`mailto:${member.email}`} class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-100 hover:bg-brand-dark text-ink/70 hover:text-white text-xs font-semibold transition-all duration-200" title={member.email}>
+                <svg class="w-3.5 h-3.5 fill-none stroke-current stroke-2" viewBox="0 0 24 24">
+                  <path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+                </svg>
+                <span>Email</span>
               </a>
             ) : null}
           </div>
-        </Card>
+        </div>
       ))}
     </div>
   </section>
 
+  <!-- Team Directory: Mentors, Research Assistants, Trainees -->
+  <section class="container-shell py-8 space-y-14">
+
+    <!-- Mentors -->
+    {mentorMembers.length > 0 && (
+      <div class="space-y-5">
+        <div class="flex items-center gap-3 border-b border-slate-200 pb-3">
+          <h3 class="text-2xl font-bold text-brand">Mentors</h3>
+          <span class="text-xs font-bold px-3 py-1 rounded-full bg-brand-dark text-peach">{mentorMembers.length}</span>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {mentorMembers.map((member) => (
+            <div class="group relative overflow-hidden rounded-full p-[1px] bg-gradient-to-r from-brand-deep via-brand-dark to-brand shadow-sm hover:shadow-xl hover:shadow-brand-dark/25 hover:-translate-y-1 transition-all duration-300">
+              <div class="relative z-10 flex items-center justify-between gap-3.5 rounded-full bg-gradient-to-r from-[#592E5C] to-[#3E1A40] group-hover:from-[#6B376E] group-hover:to-[#4C204F] px-5 py-3.5 min-h-[72px] transition-all duration-300">
+                <div class="flex items-center gap-3.5 min-w-0">
+                  <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-white/15 backdrop-blur-md border border-white/20 text-peach font-extrabold text-sm tracking-wider shadow-inner group-hover:bg-peach group-hover:text-brand-dark transition-all duration-300">
+                    {getInitials(member.name)}
+                  </div>
+                  <div class="flex flex-col min-w-0">
+                    <span class="font-bold text-sm sm:text-base text-white group-hover:text-peach transition-colors truncate">{member.name}</span>
+                    <span class="text-xs text-white/75 truncate">{member.role}</span>
+                  </div>
+                </div>
+                {member.linkedin ? (
+                  <a href={member.linkedin} target="_blank" rel="noreferrer" class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-white/10 hover:bg-peach hover:text-brand-dark text-white/90 transition-all duration-200 border border-white/15" title="LinkedIn Profile">
+                    <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24">
+                      <path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.46 10.9v8.37H9.25V10.9H6.46M7.86 6.66a1.63 1.63 0 1 0 0 3.26 1.63 1.63 0 0 0 0-3.26Z"/>
+                    </svg>
+                  </a>
+                ) : null}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    )}
+
+    <!-- Research Assistants -->
+    {raMembers.length > 0 && (
+      <div class="space-y-5">
+        <div class="flex items-center gap-3 border-b border-slate-200 pb-3">
+          <h3 class="text-2xl font-bold text-brand">Research Assistants</h3>
+          <span class="text-xs font-bold px-3 py-1 rounded-full bg-brand-dark text-peach">{raMembers.length}</span>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {raMembers.map((member) => (
+            <div class="group relative overflow-hidden rounded-full p-[1px] bg-gradient-to-r from-brand-deep via-brand-dark to-brand shadow-sm hover:shadow-xl hover:shadow-brand-dark/25 hover:-translate-y-1 transition-all duration-300">
+              <div class="relative z-10 flex items-center justify-between gap-3.5 rounded-full bg-gradient-to-r from-[#592E5C] to-[#3E1A40] group-hover:from-[#6B376E] group-hover:to-[#4C204F] px-5 py-3.5 min-h-[72px] transition-all duration-300">
+                <div class="flex items-center gap-3.5 min-w-0">
+                  <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-white/15 backdrop-blur-md border border-white/20 text-peach font-extrabold text-sm tracking-wider shadow-inner group-hover:bg-peach group-hover:text-brand-dark transition-all duration-300">
+                    {getInitials(member.name)}
+                  </div>
+                  <div class="flex flex-col min-w-0">
+                    <span class="font-bold text-sm sm:text-base text-white group-hover:text-peach transition-colors truncate">{member.name}</span>
+                    <span class="text-xs text-white/75 truncate">{member.role}</span>
+                  </div>
+                </div>
+                {member.linkedin ? (
+                  <a href={member.linkedin} target="_blank" rel="noreferrer" class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-white/10 hover:bg-peach hover:text-brand-dark text-white/90 transition-all duration-200 border border-white/15" title="LinkedIn Profile">
+                    <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24">
+                      <path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.46 10.9v8.37H9.25V10.9H6.46M7.86 6.66a1.63 1.63 0 1 0 0 3.26 1.63 1.63 0 0 0 0-3.26Z"/>
+                    </svg>
+                  </a>
+                ) : null}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    )}
+
+    <!-- Trainees -->
+    {traineeMembers.length > 0 && (
+      <div class="space-y-5">
+        <div class="flex items-center gap-3 border-b border-slate-200 pb-3">
+          <h3 class="text-2xl font-bold text-brand">Trainees</h3>
+          <span class="text-xs font-bold px-3 py-1 rounded-full bg-brand-dark text-peach">{traineeMembers.length}</span>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {traineeMembers.map((member) => (
+            <div class="group relative overflow-hidden rounded-full p-[1px] bg-gradient-to-r from-brand-deep via-brand-dark to-brand shadow-sm hover:shadow-xl hover:shadow-brand-dark/25 hover:-translate-y-1 transition-all duration-300">
+              <div class="relative z-10 flex items-center justify-between gap-3.5 rounded-full bg-gradient-to-r from-[#592E5C] to-[#3E1A40] group-hover:from-[#6B376E] group-hover:to-[#4C204F] px-5 py-3.5 min-h-[72px] transition-all duration-300">
+                <div class="flex items-center gap-3.5 min-w-0">
+                  <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-white/15 backdrop-blur-md border border-white/20 text-peach font-extrabold text-sm tracking-wider shadow-inner group-hover:bg-peach group-hover:text-brand-dark transition-all duration-300">
+                    {getInitials(member.name)}
+                  </div>
+                  <div class="flex flex-col min-w-0">
+                    <span class="font-bold text-sm sm:text-base text-white group-hover:text-peach transition-colors truncate">{member.name}</span>
+                    <span class="text-xs text-white/75 truncate">{member.role}</span>
+                  </div>
+                </div>
+                {member.linkedin ? (
+                  <a href={member.linkedin} target="_blank" rel="noreferrer" class="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-white/10 hover:bg-peach hover:text-brand-dark text-white/90 transition-all duration-200 border border-white/15" title="LinkedIn Profile">
+                    <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24">
+                      <path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.46 10.9v8.37H9.25V10.9H6.46M7.86 6.66a1.63 1.63 0 1 0 0 3.26 1.63 1.63 0 0 0 0-3.26Z"/>
+                    </svg>
+                  </a>
+                ) : null}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    )}
+
+    <!-- Alumni Network -->
+    {alumniMembers.length > 0 && (
+      <div class="space-y-5 pt-8 border-t border-slate-200">
+        <div class="flex items-center gap-3">
+          <h3 class="text-2xl font-bold text-brand">Alumni & Industry Fellows</h3>
+          <span class="text-xs font-bold px-3 py-1 rounded-full bg-brand-dark text-peach">{alumniMembers.length}</span>
+        </div>
+        <p class="text-sm text-ink/75 max-w-2xl">
+          Former researchers, students, and engineers trained at MEDS now working at leading semiconductor companies and academic institutions worldwide.
+        </p>
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 pt-2">
+          {alumniMembers.map((member) => (
+            <div class="flex items-center justify-between gap-2.5 rounded-2xl border border-slate-200 bg-slate-50/80 px-4 py-3 text-xs text-ink/80 hover:bg-white hover:border-brand/30 hover:shadow-md transition-all">
+              <span class="font-bold text-brand-dark truncate">{member.name}</span>
+              {member.institution && (
+                <span class="text-[10px] px-2 py-0.5 rounded-full bg-mauve/50 text-brand-dark font-bold shrink-0">
+                  {member.institution}
+                </span>
+              )}
+            </div>
+          ))}
+        </div>
+      </div>
+    )}
+
+  </section>
+
+  <!-- Contact Section -->
   <section class="container-shell py-12">
     <div class="surface rounded-3xl p-8 sm:p-12 text-center shadow-sm">
       <h2 class="text-3xl font-bold text-brand">Contact Us</h2>
@@ -96,3 +366,4 @@ const members = await getMembers();
     </div>
   </section>
 </BaseLayout>
+

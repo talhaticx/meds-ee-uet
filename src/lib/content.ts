@@ -5,27 +5,42 @@ async function mapMember(entry: any): Promise<Member> {
   return {
     name: entry.data.name,
     role: entry.data.role || '',
+    category: entry.data.category || 'trainee',
     bio: entry.data.bio || '',
     linkedin: entry.data.linkedin || undefined,
+    email: entry.data.email || undefined,
+    institution: entry.data.institution || undefined,
+    graduationYear: entry.data.graduationYear || undefined,
+    degree: entry.data.degree || undefined,
     imageUrl: entry.data.image ? `/meds-ee-uet/images/members/${entry.data.image}` : undefined,
     imageAlt: entry.data.imageAlt || entry.data.name,
+    sortOrder: entry.data.sortOrder ?? 999,
   };
+}
+
+async function findMember(authorKey: string): Promise<Member | undefined> {
+  if (!authorKey) return undefined;
+  const allMembers = await getCollection('members');
+  const slug = authorKey.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+  
+  const match = allMembers.find(
+    m => m.id === authorKey || m.id === slug || m.data.name.toLowerCase() === authorKey.toLowerCase()
+  );
+
+  if (match) return mapMember(match);
+  return undefined;
 }
 
 export async function getMembers(): Promise<Member[]> {
   const members = await getCollection('members');
   const mapped = await Promise.all(members.map(mapMember));
-  return mapped.sort((a, b) => a.name.localeCompare(b.name));
+  return mapped.sort((a, b) => (a.sortOrder ?? 999) - (b.sortOrder ?? 999));
 }
 
 export async function getPosts(): Promise<Post[]> {
   const posts = await getCollection('posts');
   const mapped = await Promise.all(posts.map(async (post) => {
-    let author;
-    if (post.data.author) {
-      const authorEntry = await getEntry('members', post.data.author);
-      if (authorEntry) author = await mapMember(authorEntry);
-    }
+    const author = post.data.author ? await findMember(post.data.author) : undefined;
 
     return {
       title: post.data.title,
@@ -47,11 +62,7 @@ export async function getPostBySlug(slug: string): Promise<Post | null> {
   const post = await getEntry('posts', slug);
   if (!post) return null;
 
-  let author;
-  if (post.data.author) {
-    const authorEntry = await getEntry('members', post.data.author);
-    if (authorEntry) author = await mapMember(authorEntry);
-  }
+  const author = post.data.author ? await findMember(post.data.author) : undefined;
 
   return {
     title: post.data.title,
