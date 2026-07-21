@@ -2,37 +2,70 @@
 // Parallax feature section with fixed background image
 ---
 
-<section class="relative overflow-hidden" id="parallax-section">
-  <!-- Parallax background -->
+<section class="relative overflow-hidden bg-brand-dark py-32 lg:py-44" id="parallax-section">
+  <!-- Parallax background image -->
   <div 
-    class="parallax-bg absolute inset-0"
-    style="background-image: url('/meds-ee-uet/images/parallax-bg.png');"
+    class="parallax-bg absolute inset-0 bg-cover bg-center bg-no-repeat opacity-40 mix-blend-luminosity scale-105 transition-transform duration-700"
+    style="background-image: url('/meds-ee-uet/images/parallax-bg.png'); background-attachment: fixed;"
   ></div>
-  
-  <!-- Dark overlay using brand color -->
-  <div class="absolute inset-0 bg-brand/85"></div>
-  
+
+  <!-- Deep brand gradient overlay -->
+  <div class="absolute inset-0 bg-gradient-to-r from-brand-deep/90 via-brand-dark/80 to-brand-deep/95"></div>
+
   <!-- Top curved edge -->
   <div class="absolute top-0 left-0 right-0 z-10">
     <svg viewBox="0 0 1440 60" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-full" preserveAspectRatio="none">
-      <path d="M0 0V20C360 60 720 60 1080 40C1260 30 1380 20 1440 10V0H0Z" fill="#3D1F40"/>
+      <path d="M0 0V20C360 60 720 60 1080 40C1260 30 1380 20 1440 10V0H0Z" fill="#FFFFFF"/>
     </svg>
   </div>
 
-  <div class="container-shell relative z-10 py-32 lg:py-44 text-center">
+  <div class="container-shell relative z-10 text-center">
     <div class="max-w-3xl mx-auto animate-on-scroll">
-      <span class="inline-flex items-center gap-2 rounded-full border border-peach/30 bg-peach/10 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.2em] text-peach">
-        Our Process
+      <span class="inline-flex items-center gap-2 rounded-full border border-peach/40 bg-peach/15 px-4 py-1.5 text-xs font-semibold uppercase tracking-[0.2em] text-peach backdrop-blur-md">
+        Silicon Design Pipeline
       </span>
-      <h2 class="mt-8 text-4xl font-bold text-white sm:text-5xl lg:text-6xl leading-tight">
-        From RTL to Silicon
+      <h2 class="mt-8 text-4xl font-extrabold text-white sm:text-5xl lg:text-6xl leading-tight tracking-tight">
+        From RTL Spec to <span class="bg-gradient-to-r from-peach via-white to-mauve bg-clip-text text-transparent">Fabricated Silicon</span>
       </h2>
-      <p class="mt-6 text-lg text-white/70 leading-relaxed max-w-2xl mx-auto sm:text-xl">
-        The center tracks timing, power, and verification in a repeatable pipeline that students can study, optimize, and extend — from raw RTL through sign-off to successful physical tape-out.
+      <p class="mt-6 text-lg text-white/80 leading-relaxed max-w-2xl mx-auto sm:text-xl font-normal">
+        We track timing, power, logic synthesis, and verification in a repeatable open-source pipeline — taking custom architectures from SystemVerilog RTL all the way to physical silicon tape-out.
       </p>
+
+      <!-- Visual Pipeline Badges -->
+      <div class="mt-10 grid grid-cols-2 sm:grid-cols-4 gap-4 max-w-2xl mx-auto text-left">
+        <div class="rounded-xl border border-white/15 bg-white/5 backdrop-blur-md p-3.5 flex items-center gap-3">
+          <div class="w-8 h-8 rounded-lg bg-peach/20 flex items-center justify-center text-peach font-bold text-xs">01</div>
+          <div>
+            <p class="text-xs font-bold text-white">RTL Spec</p>
+            <p class="text-[10px] text-white/50">SystemVerilog</p>
+          </div>
+        </div>
+        <div class="rounded-xl border border-white/15 bg-white/5 backdrop-blur-md p-3.5 flex items-center gap-3">
+          <div class="w-8 h-8 rounded-lg bg-peach/20 flex items-center justify-center text-peach font-bold text-xs">02</div>
+          <div>
+            <p class="text-xs font-bold text-white">Verification</p>
+            <p class="text-[10px] text-white/50">Verilator & RISCOF</p>
+          </div>
+        </div>
+        <div class="rounded-xl border border-white/15 bg-white/5 backdrop-blur-md p-3.5 flex items-center gap-3">
+          <div class="w-8 h-8 rounded-lg bg-peach/20 flex items-center justify-center text-peach font-bold text-xs">03</div>
+          <div>
+            <p class="text-xs font-bold text-white">Synthesis</p>
+            <p class="text-[10px] text-white/50">Genus & Yosys</p>
+          </div>
+        </div>
+        <div class="rounded-xl border border-white/15 bg-white/5 backdrop-blur-md p-3.5 flex items-center gap-3">
+          <div class="w-8 h-8 rounded-lg bg-peach/20 flex items-center justify-center text-peach font-bold text-xs">04</div>
+          <div>
+            <p class="text-xs font-bold text-white">Tape-Out</p>
+            <p class="text-[10px] text-white/50">MPW Silicon</p>
+          </div>
+        </div>
+      </div>
+
       <div class="mt-10">
-        <a href="/meds-ee-uet/about" class="group inline-flex items-center gap-2 rounded-full bg-peach px-8 py-4 text-sm font-semibold text-brand transition-all duration-300 hover:bg-white hover:shadow-[0_0_40px_rgba(255,230,230,0.2)] hover:-translate-y-0.5">
-          Learn about our process
+        <a href="/meds-ee-uet/about" class="group inline-flex items-center gap-2 rounded-full bg-peach px-8 py-4 text-sm font-bold text-brand transition-all duration-300 hover:bg-white hover:shadow-[0_0_40px_rgba(255,230,230,0.35)] hover:-translate-y-0.5">
+          Explore Our Silicon Pipeline
           <svg class="w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M13 7l5 5m0 0l-5 5m5-5H6" /></svg>
         </a>
       </div>
@@ -42,7 +75,7 @@
   <!-- Bottom curved edge -->
   <div class="absolute bottom-0 left-0 right-0 z-10 pointer-events-none">
     <svg viewBox="0 0 1440 60" fill="none" xmlns="http://www.w3.org/2000/svg" class="w-full h-8 sm:h-12" preserveAspectRatio="none">
-      <path d="M0 60V30C360 45 1080 15 1440 30V60H0Z" fill="white"/>
+      <path d="M0 60V30C360 45 1080 15 1440 30V60H0Z" fill="#FBF9FA"/>
     </svg>
   </div>
 </section>
