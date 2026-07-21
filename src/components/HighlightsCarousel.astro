@@ -79,12 +79,12 @@ const highlights = [
       </div>
 
       <!-- Carousel navigation arrows -->
-      {highlights.length > 3 && (
+      {highlights.length > 1 && (
         <div class="mt-8 flex justify-center gap-3">
-          <button id="carousel-prev" class="rounded-full border border-mauve bg-white p-3 text-brand transition hover:bg-peach hover:border-brand/20" aria-label="Previous slide">
+          <button id="carousel-prev" class="rounded-full border border-mauve bg-white p-3 text-brand transition hover:bg-peach hover:border-brand/20 active:scale-95 shadow-sm" aria-label="Previous slide">
             <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7" /></svg>
           </button>
-          <button id="carousel-next" class="rounded-full border border-mauve bg-white p-3 text-brand transition hover:bg-peach hover:border-brand/20" aria-label="Next slide">
+          <button id="carousel-next" class="rounded-full border border-mauve bg-white p-3 text-brand transition hover:bg-peach hover:border-brand/20 active:scale-95 shadow-sm" aria-label="Next slide">
             <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" /></svg>
           </button>
         </div>
@@ -93,35 +93,115 @@ const highlights = [
   </div>
 </section>
 
-<script lang="ts">
-  const track = document.getElementById('carousel-track');
-  const prevBtn = document.getElementById('carousel-prev');
-  const nextBtn = document.getElementById('carousel-next');
-  
-  if (track && prevBtn && nextBtn) {
-    let offset = 0;
-    const cards = track.querySelectorAll('.carousel-card');
+<script>
+  function initCarousel() {
+    const track = document.getElementById('carousel-track');
+    const prevBtn = document.getElementById('carousel-prev');
+    const nextBtn = document.getElementById('carousel-next');
+    const wrapper = document.getElementById('carousel-wrapper');
     
-    function getCardWidth() {
-      const card = cards[0] as HTMLElement;
+    if (!track || !prevBtn || !nextBtn) return;
+    
+    const cards = Array.from(track.querySelectorAll('.carousel-card'));
+    if (cards.length === 0) return;
+
+    let currentIndex = 0;
+    let autoPlayTimer = null;
+
+    function getVisibleCount() {
+      if (window.innerWidth >= 1024) return 3;
+      if (window.innerWidth >= 640) return 2;
+      return 1;
+    }
+
+    function getMaxIndex() {
+      return Math.max(0, cards.length - getVisibleCount());
+    }
+
+    function getCardStep() {
+      const card = cards[0];
       if (!card) return 0;
-      return card.offsetWidth + 24;
-    }
-    
-    function getMaxOffset() {
-      const trackWidth = Array.from(cards).reduce((sum, card) => sum + (card as HTMLElement).offsetWidth + 24, 0) - 24;
-      const containerWidth = (track.parentElement as HTMLElement).offsetWidth;
-      return Math.max(0, trackWidth - containerWidth);
+      return card.getBoundingClientRect().width + 24; // width + gap
     }
 
-    prevBtn.addEventListener('click', () => {
-      offset = Math.max(0, offset - getCardWidth());
-      track.style.transform = `translateX(-${offset}px)`;
-    });
+    function updateSlide() {
+      const maxIndex = getMaxIndex();
+      if (currentIndex > maxIndex) {
+        currentIndex = 0;
+      } else if (currentIndex < 0) {
+        currentIndex = maxIndex;
+      }
 
-    nextBtn.addEventListener('click', () => {
-      offset = Math.min(getMaxOffset(), offset + getCardWidth());
+      const step = getCardStep();
+      const offset = currentIndex * step;
       track.style.transform = `translateX(-${offset}px)`;
-    });
+    }
+
+    function nextSlide() {
+      const maxIndex = getMaxIndex();
+      if (currentIndex >= maxIndex) {
+        currentIndex = 0; // Rotate back to beginning
+      } else {
+        currentIndex++;
+      }
+      updateSlide();
+    }
+
+    function prevSlide() {
+      const maxIndex = getMaxIndex();
+      if (currentIndex <= 0) {
+        currentIndex = maxIndex; // Rotate to end
+      } else {
+        currentIndex--;
+      }
+      updateSlide();
+    }
+
+    nextBtn.onclick = (e) => {
+      e.preventDefault();
+      nextSlide();
+      restartAutoPlay();
+    };
+
+    prevBtn.onclick = (e) => {
+      e.preventDefault();
+      prevSlide();
+      restartAutoPlay();
+    };
+
+    function startAutoPlay() {
+      stopAutoPlay();
+      autoPlayTimer = setInterval(nextSlide, 4500);
+    }
+
+    function stopAutoPlay() {
+      if (autoPlayTimer) {
+        clearInterval(autoPlayTimer);
+        autoPlayTimer = null;
+      }
+    }
+
+    function restartAutoPlay() {
+      stopAutoPlay();
+      startAutoPlay();
+    }
+
+    if (wrapper) {
+      wrapper.onmouseenter = stopAutoPlay;
+      wrapper.onmouseleave = startAutoPlay;
+    }
+
+    window.onresize = () => {
+      updateSlide();
+    };
+
+    updateSlide();
+    startAutoPlay();
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initCarousel);
+  } else {
+    initCarousel();
   }
 </script>

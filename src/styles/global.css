@@ -155,7 +155,7 @@
 
 /* ── Custom Prose for Blog/Markdoc Content ── */
 .prose-custom {
-  @apply text-ink/85 leading-relaxed text-[16px] sm:text-[17px];
+  @apply text-ink/85 leading-relaxed text-[16px] sm:text-[17px] break-words overflow-hidden;
 }
 
 .prose-custom h2 {
@@ -171,11 +171,11 @@
 }
 
 .prose-custom p {
-  @apply my-5 leading-relaxed text-ink/80;
+  @apply my-5 leading-relaxed text-ink/80 break-words;
 }
 
 .prose-custom a {
-  @apply text-brand font-semibold underline decoration-brand/30 hover:decoration-brand transition-all;
+  @apply text-brand font-semibold underline decoration-brand/30 hover:decoration-brand transition-all break-words;
 }
 
 .prose-custom ul {
@@ -187,7 +187,7 @@
 }
 
 .prose-custom li {
-  @apply text-ink/80;
+  @apply text-ink/80 break-words;
 }
 
 .prose-custom blockquote {
@@ -198,12 +198,23 @@
   @apply m-0;
 }
 
+.prose-custom pre {
+  @apply overflow-x-auto max-w-full rounded-2xl bg-brand-deep text-white/90 p-4 sm:p-5 my-6 text-xs sm:text-sm font-mono leading-relaxed shadow-inner border border-brand-dark/50;
+  -webkit-overflow-scrolling: touch;
+}
+
+.prose-custom pre code {
+  @apply bg-transparent text-inherit p-0 font-normal border-0 text-inherit;
+  white-space: pre;
+  word-break: normal;
+}
+
 .prose-custom code:not(pre code) {
-  @apply bg-mauve/40 text-brand px-1.5 py-0.5 rounded text-sm font-mono font-medium;
+  @apply bg-mauve/40 text-brand px-1.5 py-0.5 rounded text-xs sm:text-sm font-mono font-medium break-words;
 }
 
 .prose-custom img {
-  @apply rounded-2xl border border-mauve/80 my-8 mx-auto shadow-sm max-w-full h-auto;
+  @apply rounded-2xl border border-mauve/80 my-8 mx-auto shadow-sm max-w-full h-auto object-cover;
 }
 
 .prose-custom hr {
@@ -211,7 +222,8 @@
 }
 
 .prose-custom table {
-  @apply w-full border-collapse my-8 text-sm overflow-hidden rounded-xl border border-mauve/50;
+  @apply w-full border-collapse my-8 text-sm overflow-x-auto block max-w-full rounded-xl border border-mauve/50;
+  -webkit-overflow-scrolling: touch;
 }
 
 .prose-custom th {
